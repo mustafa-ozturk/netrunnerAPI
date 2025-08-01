@@ -4,7 +4,7 @@ import {
   ForbiddenError,
   NotFoundError,
   UnAuthorizedError,
-} from "./error";
+} from "./error.js";
 import { respondWithError } from "./json.js";
 
 export const middlewareErrorHandler = (
