@@ -5,7 +5,7 @@
   <br>NetrunnerAPI
 </h1>
   <p align="center">
-A Cyberpunk-themed hacking game API. Hack, steal data, and sell it on a black market auction with your own custom client and tools.
+A Cyberpunk-themed hacking game API.<br>Hack, steal data, and sell it on a black market auction with your own custom client and tools.
     <br />
     <a href="#about">About</a>
     ·
