@@ -40,7 +40,9 @@ npm run dev
 
 ### Database Development
 
-Database migrations run automatically when the server starts. When modifying the database schema:
+Database migrations run automatically when the server starts.
+
+When modifying the database schema:
 
 ```bash
 # Generate new migration after schema changes
