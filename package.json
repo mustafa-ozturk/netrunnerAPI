@@ -1,0 +1,31 @@
+{
+  "name": "netrunnerapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "npx tsc && node dist/index.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.1.0",
+    "typescript": "^5.9.2"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mustafa-ozturk/netrunnerAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mustafa-ozturk/netrunnerAPI/issues"
+  },
+  "homepage": "https://github.com/mustafa-ozturk/netrunnerAPI#readme",
+  "keywords": [],
+  "author": "Mustafa Ozturk"
+}
