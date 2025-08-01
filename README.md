@@ -1,7 +1,7 @@
 <!-- LOGO -->
 <h1>
 <p align="center">
-  <img src="" alt="Logo" width="128">
+  <img src="https://github.com/user-attachments/assets/3f6d49eb-60a0-4144-8992-eccb675bca66" alt="Logo" width="128">
   <br>NetrunnerAPI
 </h1>
   <p align="center">
@@ -9,9 +9,9 @@ A Cyberpunk-themed hacking game API. Hack, steal data, and sell it on a black ma
     <br />
     <a href="#about">About</a>
     ·
-    <a href="https://ghostty.org/docs">Documentation</a>
+    <a href="#documentation">Documentation</a>
     ·
-    <a href="#developing-ghostty">Developing</a>
+    <a href="#developing">Developing</a>
   </p>
 </p>
 
