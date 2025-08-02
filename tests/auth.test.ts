@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { checkPasswordHash, hashPassword } from "../src/auth.ts";
+import { checkPasswordHash, hashPassword } from "../src/auth.js";
 
 describe("hashPassword", () => {
   it("should return a hash string different from the password", async () => {

@@ -21,6 +21,55 @@ A Cyberpunk-themed hacking game API.<br>Hack, steal data, and sell it on a black
 
 ## Documentation
 
+### Create User
+
+Creates a new user.
+
+**Endpoint:** `POST /api/users`
+
+**Request Body:**
+
+```json
+{
+  "username": "v",
+  "password": "samurai"
+}
+```
+
+**Parameters:**
+
+- `username` (string, required)
+- `password` (string, required)
+
+**Success Response (201):**
+
+```json
+{
+  "id": 42,
+  "username": "v",
+  "createdAt": "2025-08-02T14:30:00.000Z",
+  "updatedAt": "2025-08-02T14:30:00.000Z"
+}
+```
+
+**Error Responses:**
+
+**400 Bad Request** - Missing parameters:
+
+```json
+{
+  "error": "Missing required params: username, password."
+}
+```
+
+**409 Conflict** - Username already exists:
+
+```json
+{
+  "error": "Username already exists"
+}
+```
+
 ## Developing
 
 ### Prerequisites
