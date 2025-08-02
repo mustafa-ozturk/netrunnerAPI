@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   BadRequestError,
+  ConflictError,
   ForbiddenError,
   NotFoundError,
   UnAuthorizedError,
@@ -23,6 +24,8 @@ export const middlewareErrorHandler = (
     code = 403;
   } else if (err instanceof NotFoundError) {
     code = 404;
+  } else if (err instanceof ConflictError) {
+    code = 409;
   } else {
     code = 500;
     msg = "Internal Server Error";
