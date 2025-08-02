@@ -21,8 +21,8 @@ A Cyberpunk-themed hacking game API.<br>Hack, steal data, and sell it on a black
 
 ## Documentation
 
-### Create User
-
+<details>
+<summary>Create User</summary>
 Creates a new user.
 
 **Endpoint:** `POST /api/users`
@@ -69,6 +69,8 @@ Creates a new user.
   "error": "Username already exists"
 }
 ```
+
+</details>
 
 ## Developing
 
