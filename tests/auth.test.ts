@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { checkPasswordHash, hashPassword } from "../src/auth.js";
+import { checkPasswordHash, hashPassword, makeJWT } from "../src/auth.js";
 
 describe("hashPassword", () => {
   it("should return a hash string different from the password", async () => {
@@ -28,5 +28,12 @@ describe("checkPasswordHash", () => {
     const hash = await hashPassword(pw);
     const matched = await checkPasswordHash(pw, hash);
     expect(matched).toBe(true);
+  });
+});
+
+describe("makeJWT", () => {
+  it("should return a string with length > 0", async () => {
+    const jwt = makeJWT("test-userId", 60, "test-secret");
+    expect(jwt.length).greaterThan(0);
   });
 });
