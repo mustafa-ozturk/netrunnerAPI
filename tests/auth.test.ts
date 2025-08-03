@@ -3,6 +3,7 @@ import {
   checkPasswordHash,
   hashPassword,
   makeJWT,
+  makeRefreshToken,
   validateJWT,
 } from "../src/auth.js";
 import { UnAuthorizedError } from "../src/error.js";
@@ -79,5 +80,23 @@ describe("validateJWT", () => {
     const token = makeJWT(subject, 3600, secret);
 
     expect(() => validateJWT(token, secret)).toThrow(UnAuthorizedError);
+  });
+});
+
+describe("makeRefreshToken", () => {
+  it("should return a string", async () => {
+    const refreshToken = makeRefreshToken();
+    expect(refreshToken).toBeTypeOf("string");
+  });
+
+  it("should return a 64-character hex string", () => {
+    const refreshToken = makeRefreshToken();
+    expect(refreshToken).toHaveLength(64);
+  });
+
+  it("should generate different tokens each time", () => {
+    const token1 = makeRefreshToken();
+    const token2 = makeRefreshToken();
+    expect(token1).not.toBe(token2);
   });
 });

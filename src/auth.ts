@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import { JwtPayload } from "jsonwebtoken";
 import { UnAuthorizedError } from "./error";
 
@@ -52,4 +53,14 @@ export const validateJWT = (token: string, secret: string) => {
   }
 
   return decoded.sub;
+};
+
+export const makeRefreshToken = () => {
+  /**
+   * each byte == 8 bits == 256 possible values (0-255)
+   * hex uses 16 characters (0-9, a-f)
+   * need 2 hex characters represent 1 byte
+   * so 32 * 2 = 64 character hex string
+   */
+  return crypto.randomBytes(32).toString("hex");
 };
