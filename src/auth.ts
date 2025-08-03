@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JwtPayload } from "jsonwebtoken";
+import { UnAuthorizedError } from "./error";
 
 export const hashPassword = async (password: string) => {
   const saltRounds = 10;
@@ -33,4 +34,22 @@ export const makeJWT = (
     { algorithm: "HS256" }
   );
   return token;
+};
+
+export const validateJWT = (token: string, secret: string) => {
+  let decoded: payload;
+
+  try {
+    decoded = jwt.verify(token, secret, {
+      algorithms: ["HS256"],
+    }) as JwtPayload;
+  } catch (error) {
+    throw new UnAuthorizedError("Invalid Token.");
+  }
+
+  if (!decoded.sub) {
+    throw new UnAuthorizedError("No subject found token.");
+  }
+
+  return decoded.sub;
 };
