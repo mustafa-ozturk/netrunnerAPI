@@ -3,6 +3,7 @@ import { createUser } from "../db/queries/users.js";
 import { NewUser } from "../db/schema.js";
 import { BadRequestError } from "../error.js";
 import { respondWithJSON } from "../json.js";
+import { hashPassword } from "../auth.js";
 
 export type UserResponse = Omit<NewUser, "hashedPassword">;
 
@@ -22,9 +23,11 @@ export const handlerCreateUser = async (req: Request, res: Response) => {
     );
   }
 
+  const hashedPassword = await hashPassword(params.password);
+
   const user = await createUser({
     username: params.username,
-    hashedPassword: params.password,
+    hashedPassword: hashedPassword,
   });
 
   respondWithJSON(res, 201, {
