@@ -1,12 +1,14 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import {
   checkPasswordHash,
+  getBearerToken,
   hashPassword,
   makeJWT,
   makeRefreshToken,
   validateJWT,
 } from "../src/auth.js";
-import { UnAuthorizedError } from "../src/error.js";
+import { BadRequestError, UnAuthorizedError } from "../src/error.js";
+import { Request } from "express";
 
 describe("hashPassword", () => {
   it("should return a hash string different from the password", async () => {
@@ -98,5 +100,43 @@ describe("makeRefreshToken", () => {
     const token1 = makeRefreshToken();
     const token2 = makeRefreshToken();
     expect(token1).not.toBe(token2);
+  });
+});
+
+describe("getBearerToken", () => {
+  it("should return the bearer token", () => {
+    const token = "test-token";
+    const mockReq = {
+      get: (key: string) => {
+        if (key !== "Authorization") {
+          return undefined;
+        }
+        return `Bearer ${token}`;
+      },
+    };
+
+    const result = getBearerToken(mockReq as Request);
+
+    expect(result).toBe(token);
+  });
+
+  it("should throw a BadRequest error when there is no authorization header", () => {
+    const mockReq = {
+      get: (key: string) => {
+        return undefined;
+      },
+    };
+
+    expect(() => getBearerToken(mockReq as Request)).toThrow(BadRequestError);
+  });
+
+  it("should throw a BadRequest error when Bearer is not present Auth header", () => {
+    const mockReq = {
+      get: (key: string) => {
+        return "test test";
+      },
+    };
+
+    expect(() => getBearerToken(mockReq as Request)).toThrow(BadRequestError);
   });
 });

@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { JwtPayload } from "jsonwebtoken";
-import { UnAuthorizedError } from "./error.js";
+import { BadRequestError, UnAuthorizedError } from "./error.js";
+import { Request } from "express";
 
 export const hashPassword = async (password: string) => {
   const saltRounds = 10;
@@ -63,4 +64,18 @@ export const makeRefreshToken = () => {
    * so 32 * 2 = 64 character hex string
    */
   return crypto.randomBytes(32).toString("hex");
+};
+
+export const getBearerToken = (req: Request) => {
+  const authorization = req.get("Authorization");
+  if (!authorization) {
+    throw new BadRequestError("Malformed authorization header.");
+  }
+
+  const split = authorization!.split(" ");
+  if (split.length < 2 || split[0] !== "Bearer") {
+    throw new BadRequestError("Malformed authorization header.");
+  }
+
+  return split[1];
 };
