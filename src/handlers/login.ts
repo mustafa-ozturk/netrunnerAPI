@@ -7,7 +7,7 @@ import { config } from "../config.js";
 import { createRefreshToken } from "../db/queries/refresh.js";
 import { respondWithJSON } from "../json.js";
 
-type LoginResponse = UserResponse & {
+export type LoginResponse = UserResponse & {
   token: string;
   refreshToken: string;
 };

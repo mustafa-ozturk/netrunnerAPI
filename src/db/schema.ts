@@ -26,3 +26,18 @@ export const refreshTokens = pgTable("refresh_tokens", {
   revokedAt: timestamp("revoked_at"),
 });
 export type NewRefreshToken = typeof refreshTokens.$inferInsert;
+
+export const hacks = pgTable("hacks", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  completesAt: timestamp("completes_at").notNull(),
+  userId: uuid("user_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  status: varchar("status", { length: 256 }).notNull(),
+});
+export type NewHack = typeof hacks.$inferInsert;

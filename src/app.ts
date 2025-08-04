@@ -7,6 +7,7 @@ import { middlewareErrorHandler } from "./middleware.js";
 import { config } from "./config.js";
 import { handlerCreateUser } from "./handlers/user.js";
 import { handlerLogin } from "./handlers/login.js";
+import { handlerStartHack } from "./handlers/hack.js";
 
 // automatic migrations
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -29,6 +30,14 @@ app.post("/api/users", async (req, res, next) => {
 app.post("/api/login", async (req, res, next) => {
   try {
     await handlerLogin(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/hack", async (req, res, next) => {
+  try {
+    await handlerStartHack(req, res);
   } catch (error) {
     next(error);
   }

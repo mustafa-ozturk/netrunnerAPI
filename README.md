@@ -22,7 +22,7 @@ A Cyberpunk-themed hacking game API.<br>Hack, steal data, and sell it on a black
 ## Documentation
 
 <details>
-<summary>Create User</summary>
+<summary>Create a User</summary>
 Creates a new user.
 
 **Endpoint:** `POST /api/users`
@@ -125,6 +125,50 @@ Authenticate a user and receive access tokens.
 ```json
 {
   "error": "Incorrect username or password."
+}
+```
+
+</details>
+
+<details>
+<summary>Start Hacking</summary>
+Initiate a new hacking operation.
+
+**Endpoint:** `POST /api/hack`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (201):**
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "userId": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "createdAt": "2025-08-04T14:30:00.000Z",
+  "updatedAt": "2025-08-04T14:30:00.000Z",
+  "completesAt": "2025-08-04T14:35:00.000Z",
+  "status": "In Progress"
+}
+```
+
+**Response Fields:**
+
+- `completesAt` - When the hack will automatically complete
+- `status` - Current hack status ("In Progress" → "Completed")
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
 }
 ```
 

@@ -1,0 +1,1 @@
+ALTER TABLE "hacks" DROP CONSTRAINT "hacks_status_unique";
