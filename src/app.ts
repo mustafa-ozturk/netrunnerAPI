@@ -39,7 +39,7 @@ app.post("/api/login", async (req, res, next) => {
   }
 });
 
-app.post("/api/hack", async (req, res, next) => {
+app.post("/api/hacks", async (req, res, next) => {
   try {
     await handlerStartHack(req, res);
   } catch (error) {

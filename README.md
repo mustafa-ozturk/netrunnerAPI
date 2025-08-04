@@ -134,7 +134,7 @@ Authenticate a user and receive access tokens.
 <summary>Start Hacking</summary>
 Initiate a new hacking operation.
 
-**Endpoint:** `POST /api/hack`
+**Endpoint:** `POST /api/hacks`
 
 **Authorization:** Bearer token required
 

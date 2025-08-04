@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app";
 
-describe("handlerStartHack", () => {
+describe("handlerStartHack", async () => {
   it("should return 401 with error message when no valid access token", async () => {
-    const response = await request(app).post("/api/hack");
+    const response = await request(app).post("/api/hacks");
 
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBeDefined();
@@ -24,7 +24,7 @@ describe("handlerStartHack", () => {
       .send({ username: uniqueUsername, password: password });
 
     const response = await request(app)
-      .post("/api/hack")
+      .post("/api/hacks")
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     expect(response.statusCode).toBe(201);
