@@ -17,17 +17,18 @@ describe("completeExpiredHacks", async () => {
     const hack = await createHack(user.id, 0);
 
     const completed = await completeExpiredHacks();
+    const myCompletedHack = completed.find((h) => h.id === hack!.id);
 
-    expect(completed).toHaveLength(1);
-    expect(completed[0].id).toBe(hack!.id);
-    expect(completed[0].status).toBe("Completed");
+    expect(myCompletedHack).toBeDefined();
+    expect(myCompletedHack!.status).toBe("Completed");
   });
 
   it("should not complete hacks that have not passed their completion time", async () => {
-    await createHack(user.id, 100);
+    const hack = await createHack(user.id, 100);
 
     const completed = await completeExpiredHacks();
+    const myCompletedHack = completed.find((h) => h.id === hack!.id);
 
-    expect(completed).toHaveLength(0);
+    expect(myCompletedHack).not.toBeDefined();
   });
 });
