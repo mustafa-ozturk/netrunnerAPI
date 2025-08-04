@@ -6,6 +6,7 @@ import express from "express";
 import { middlewareErrorHandler } from "./middleware.js";
 import { config } from "./config.js";
 import { handlerCreateUser } from "./handlers/user.js";
+import { handlerLogin } from "./handlers/login.js";
 
 // automatic migrations
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -20,6 +21,14 @@ app.use(express.json());
 app.post("/api/users", async (req, res, next) => {
   try {
     await handlerCreateUser(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/login", async (req, res, next) => {
+  try {
+    await handlerLogin(req, res);
   } catch (error) {
     next(error);
   }

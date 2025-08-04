@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { JwtPayload } from "jsonwebtoken";
-import { UnAuthorizedError } from "./error";
+import { UnAuthorizedError } from "./error.js";
 
 export const hashPassword = async (password: string) => {
   const saltRounds = 10;

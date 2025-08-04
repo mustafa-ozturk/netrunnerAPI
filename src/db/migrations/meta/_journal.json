@@ -8,6 +8,13 @@
       "when": 1754080406978,
       "tag": "0000_free_red_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1754264473071,
+      "tag": "0001_tearful_roland_deschain",
+      "breakpoints": true
     }
   ]
 }

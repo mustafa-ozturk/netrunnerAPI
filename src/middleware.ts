@@ -31,6 +31,7 @@ export const middlewareErrorHandler = (
     msg = "Internal Server Error";
   }
 
+  console.log(`[ERROR MIDDLEWARE]: ${code} - ${msg}`);
   respondWithError(res, code, msg);
   next();
 };

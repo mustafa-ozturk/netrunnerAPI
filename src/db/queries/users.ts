@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { ConflictError } from "../../error.js";
 import { db } from "../index.js";
 import { NewUser, users } from "../schema.js";
@@ -12,4 +13,12 @@ export async function createUser(user: NewUser) {
     }
     throw error;
   }
+}
+
+export async function getUserByUsername(username: string) {
+  const [row] = await db
+    .select()
+    .from(users)
+    .where(eq(users.username, username));
+  return row;
 }

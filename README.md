@@ -45,7 +45,7 @@ Creates a new user.
 
 ```json
 {
-  "id": 42,
+  "id": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
   "username": "v",
   "createdAt": "2025-08-02T14:30:00.000Z",
   "updatedAt": "2025-08-02T14:30:00.000Z"
@@ -67,6 +67,64 @@ Creates a new user.
 ```json
 {
   "error": "Username already exists"
+}
+```
+
+</details>
+
+<details>
+<summary>Login</summary>
+Authenticate a user and receive access tokens.
+
+**Endpoint:** `POST /api/login`
+
+**Request Body:**
+
+```json
+{
+  "username": "v",
+  "password": "samurai"
+}
+```
+
+**Parameters:**
+
+- `username` (string, required)
+- `password` (string, required)
+
+**Success Response (200):**
+
+```json
+{
+  "id": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "username": "v",
+  "createdAt": "2025-08-03T19:59:55.130Z",
+  "updatedAt": "2025-08-03T19:59:55.130Z",
+  "token": "eyJhbGciO.example.token",
+  "refreshToken": "a1b2c3d4e5f6.example.refresh.token"
+}
+```
+
+**Response Fields:**
+
+- `token` - JWT access token (expires in 1 hour)
+- `refreshToken` - Long-lived token for getting new access tokens (expires in 60 days)
+
+**Error Responses:**
+
+**400 Bad Request** - Missing parameters:
+
+```json
+{
+  "error": "Missing required params: username, password."
+}
+```
+
+**401 Unauthorized** - Invalid credentials:
+
+```json
+{
+  "error": "Incorrect username or password."
 }
 ```
 
