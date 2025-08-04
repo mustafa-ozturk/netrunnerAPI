@@ -204,3 +204,13 @@ npm run db:generate
 # Restart server to apply new migrations
 npm run dev
 ```
+
+### Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
