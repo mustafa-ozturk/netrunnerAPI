@@ -7,7 +7,7 @@ import {
   makeRefreshToken,
   validateJWT,
 } from "../src/auth.js";
-import { BadRequestError, UnAuthorizedError } from "../src/error.js";
+import { UnAuthorizedError } from "../src/error.js";
 import { Request } from "express";
 
 describe("hashPassword", () => {
@@ -127,7 +127,7 @@ describe("getBearerToken", () => {
       },
     };
 
-    expect(() => getBearerToken(mockReq as Request)).toThrow(BadRequestError);
+    expect(() => getBearerToken(mockReq as Request)).toThrow(UnAuthorizedError);
   });
 
   it("should throw a BadRequest error when Bearer is not present Auth header", () => {
@@ -137,6 +137,6 @@ describe("getBearerToken", () => {
       },
     };
 
-    expect(() => getBearerToken(mockReq as Request)).toThrow(BadRequestError);
+    expect(() => getBearerToken(mockReq as Request)).toThrow(UnAuthorizedError);
   });
 });

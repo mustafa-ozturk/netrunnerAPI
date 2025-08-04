@@ -69,12 +69,12 @@ export const makeRefreshToken = () => {
 export const getBearerToken = (req: Request) => {
   const authorization = req.get("Authorization");
   if (!authorization) {
-    throw new BadRequestError("Malformed authorization header.");
+    throw new UnAuthorizedError("Malformed authorization header.");
   }
 
   const split = authorization!.split(" ");
   if (split.length < 2 || split[0] !== "Bearer") {
-    throw new BadRequestError("Malformed authorization header.");
+    throw new UnAuthorizedError("Malformed authorization header.");
   }
 
   return split[1];
