@@ -209,7 +209,7 @@ npm run dev
 
 ```bash
 # Run all tests
-npm test
+npm run test
 
 # Run tests in watch mode
 npm run test:watch
