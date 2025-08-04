@@ -15,7 +15,7 @@ A Cyberpunk-themed hacking game API.<br>Hack, steal data, and sell it on a black
   </p>
 </p>
 
-> **Status:** 🚧 Work in Progress
+> **🚧 Work in Progress:** Expect potential breaking changes as new game features are added.
 
 ## About
 
