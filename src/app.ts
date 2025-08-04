@@ -8,6 +8,7 @@ import { config } from "./config.js";
 import { handlerCreateUser } from "./handlers/user.js";
 import { handlerLogin } from "./handlers/login.js";
 import { handlerStartHack } from "./handlers/hack.js";
+import { startHackCompletionJob } from "./jobs/hackJobs.js";
 
 // automatic migrations
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -16,6 +17,9 @@ await migrate(drizzle(migrationClient), config.db.migrationConfig);
 export const app = express();
 
 app.use(express.json());
+
+// background jobs
+startHackCompletionJob();
 
 // unhandled async errors don’t automatically go to the error handler.
 // so we are catching them
