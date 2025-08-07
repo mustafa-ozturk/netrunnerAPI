@@ -1,4 +1,10 @@
-import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -41,3 +47,20 @@ export const hacks = pgTable("hacks", {
   status: varchar("status", { length: 256 }).notNull(),
 });
 export type NewHack = typeof hacks.$inferInsert;
+
+export const items = pgTable("items", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  itemType: varchar("item_type", { length: 256 }).notNull(),
+  itemName: varchar("item_name", { length: 256 }).notNull(),
+  description: varchar("item_name", { length: 256 * 2 }).notNull(),
+  quantity: integer().notNull(),
+  userId: uuid("user_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+});
+export type NewItem = typeof items.$inferInsert;

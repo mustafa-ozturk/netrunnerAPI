@@ -9,6 +9,7 @@ import { handlerCreateUser } from "./handlers/user.js";
 import { handlerLogin } from "./handlers/login.js";
 import { handlerGetHackById, handlerStartHack } from "./handlers/hack.js";
 import { startHackCompletionJob } from "./jobs/hackJobs.js";
+import { handlerGetInventory } from "./handlers/inventory.js";
 
 // automatic migrations
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -50,6 +51,14 @@ app.post("/api/hacks", async (req, res, next) => {
 app.get("/api/hacks/:hackID", async (req, res, next) => {
   try {
     await handlerGetHackById(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/inventory", async (req, res, next) => {
+  try {
+    await handlerGetInventory(req, res);
   } catch (error) {
     next(error);
   }

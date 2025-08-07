@@ -223,6 +223,51 @@ Authorization: Bearer <your-access-token>
 
 </details>
 
+<details>
+<summary>Get Inventory</summary>
+
+Retrieve all items in your inventory.
+
+**Endpoint:** `GET /api/inventory`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (200):**
+
+```json
+{
+  "items": []
+}
+```
+
+**Item Type**
+
+```ts
+id: string;
+name: string;
+type: string;
+description: string;
+quantity: number;
+```
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+</details>
+
 ## Developing
 
 ### Prerequisites
