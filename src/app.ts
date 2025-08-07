@@ -7,7 +7,7 @@ import { middlewareErrorHandler } from "./middleware.js";
 import { config } from "./config.js";
 import { handlerCreateUser } from "./handlers/user.js";
 import { handlerLogin } from "./handlers/login.js";
-import { handlerStartHack } from "./handlers/hack.js";
+import { handlerGetHackById, handlerStartHack } from "./handlers/hack.js";
 import { startHackCompletionJob } from "./jobs/hackJobs.js";
 
 // automatic migrations
@@ -42,6 +42,14 @@ app.post("/api/login", async (req, res, next) => {
 app.post("/api/hacks", async (req, res, next) => {
   try {
     await handlerStartHack(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/hacks/:hackID", async (req, res, next) => {
+  try {
+    await handlerGetHackById(req, res);
   } catch (error) {
     next(error);
   }

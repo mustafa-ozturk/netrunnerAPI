@@ -31,3 +31,12 @@ export const completeExpiredHacks = async () => {
     .where(and(lte(hacks.completesAt, now), eq(hacks.status, "In Progress")))
     .returning();
 };
+
+export const getHackById = async (hackId: string) => {
+  try {
+    const [row] = await db.select().from(hacks).where(eq(hacks.id, hackId));
+    return row;
+  } catch (error: any) {
+    console.log("[DB ERROR]", error?.cause);
+  }
+};

@@ -174,6 +174,55 @@ Authorization: Bearer <your-access-token>
 
 </details>
 
+<details>
+<summary>Get Hack by ID</summary>
+
+Retrieve details of a specific hack operation.
+
+**Endpoint:** `GET /api/hacks/:hackId`
+
+**Authorization:** Bearer token required
+
+**Path Parameters:**
+
+- `hackId` (string, required) - The unique id of the hack
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (200):**
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "userId": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "createdAt": "2025-08-04T14:30:00.000Z",
+  "updatedAt": "2025-08-04T14:30:00.000Z",
+  "completesAt": "2025-08-04T14:35:00.000Z",
+  "status": "In Progress"
+}
+```
+
+**Response Fields:**
+
+- `completesAt` - When the hack will automatically complete
+- `status` - Current hack status ("In Progress" → "Completed")
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+</details>
+
 ## Developing
 
 ### Prerequisites
