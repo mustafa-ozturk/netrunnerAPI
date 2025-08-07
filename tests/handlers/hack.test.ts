@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app";
 
-describe("handlerStartHack", async () => {
+describe("POST /api/hacks", async () => {
   it("should return 401 with error message when no valid access token", async () => {
     const response = await request(app).post("/api/hacks");
 
@@ -36,7 +36,7 @@ describe("handlerStartHack", async () => {
   });
 });
 
-describe("handlerGetHackById", async () => {
+describe("GET /api/hacks/:hackId", async () => {
   it("should return 401 with error message when no valid access token", async () => {
     const response = await request(app).get("/api/hacks/test");
 
