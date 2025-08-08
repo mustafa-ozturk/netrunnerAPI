@@ -146,6 +146,70 @@ Authenticate a user and receive access tokens.
 </details>
 
 <details>
+<summary>Scan for Targets</summary>
+
+Scan the network for available hack targets.
+
+**Endpoint:** `GET /api/scan`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (200):**
+
+```json
+{
+  "targets": [
+    {
+      "id": "megacorp_financials",
+      "name": "Mega-corp Financial Division",
+      "description": "Mega-corp's primary financial servers containing transaction records and budget allocations.",
+      "difficulty": "medium",
+      "possibleLoot": [
+        "financial_records",
+        "corporate_blackmail",
+        "encrypted_data_shard"
+      ]
+    },
+    {
+      "id": "private_research_lab",
+      "name": "Private Research Laboratory",
+      "description": "Cutting-edge medical research facility with experimental data and prototype neural interfaces.",
+      "difficulty": "hard",
+      "possibleLoot": ["research_data", "neural_interface", "memory_chip"]
+    }
+  ]
+}
+```
+
+**Target Properties:**
+
+- `id` (string) - Unique target identifier
+- `name` (string) - Display name of the target
+- `description` (string) - Detailed target information
+- `difficulty` (string) - Target difficulty level ("easy", "medium", "hard", "legendary")
+- `possibleLoot` (string[]) - Array of potential items that can be extracted
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+**Usage Example:**
+
+</details>
+
+<details>
 <summary>Start Hacking</summary>
 Initiate a new hacking operation.
 
