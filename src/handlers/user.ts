@@ -4,6 +4,7 @@ import { NewUser } from "../db/schema.js";
 import { BadRequestError } from "../error.js";
 import { respondWithJSON } from "../json.js";
 import { hashPassword } from "../auth.js";
+import { createNewStat } from "src/db/queries/stats.js";
 
 export type UserResponse = Omit<NewUser, "hashedPassword">;
 
@@ -29,6 +30,9 @@ export const handlerCreateUser = async (req: Request, res: Response) => {
     username: params.username,
     hashedPassword: hashedPassword,
   });
+
+  // create the users stats
+  await createNewStat(user.id);
 
   respondWithJSON(res, 201, {
     id: user.id,

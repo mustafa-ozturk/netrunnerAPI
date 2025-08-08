@@ -85,7 +85,7 @@ describe("GET /api/hacks/:hackId", async () => {
 });
 
 describe("GET /api/hacks/:hackdId/extract", async () => {
-  it.only("should extract the hack", async () => {
+  it("should extract the hack", async () => {
     const uniqueUsername = `testuser-${Math.random()
       .toString(36)
       .substring(7)}`;
@@ -117,7 +117,7 @@ describe("GET /api/hacks/:hackdId/extract", async () => {
     expect(getHackResponse.body.status).toBe("Extracted");
   });
 
-  it.only("should return 200 with correct fields", async () => {
+  it("should return 200 with correct fields", async () => {
     const uniqueUsername = `testuser-${Math.random()
       .toString(36)
       .substring(7)}`;

@@ -64,3 +64,18 @@ export const items = pgTable("items", {
     .notNull(),
 });
 export type NewItem = typeof items.$inferInsert;
+
+export const stats = pgTable("stats", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  experience: integer().default(0), // level will be derived from total exp
+  eurodollars: integer().default(0),
+});
+export type NewStat = typeof items.$inferInsert;
