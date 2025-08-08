@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "../index.js";
 import { stats } from "../schema.js";
 
@@ -22,5 +22,19 @@ export const getStatByUserId = async (userId: string) => {
     return row;
   } catch (error: any) {
     console.log("[getStatByUserId][DB ERROR]", error?.cause);
+  }
+};
+
+export const addEurodollars = async (userId: string, eurodollars: number) => {
+  try {
+    const rows = await db
+      .update(stats)
+      .set({ eurodollars: sql`${stats.eurodollars} + ${eurodollars}` })
+      .where(eq(stats.userId, userId))
+      .returning();
+
+    return rows.length > 0;
+  } catch (error: any) {
+    console.log("[addEurodollars][DB ERROR]", error?.cause);
   }
 };

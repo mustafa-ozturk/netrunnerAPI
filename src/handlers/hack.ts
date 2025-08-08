@@ -10,6 +10,7 @@ import { NewHack } from "../db/schema.js";
 import { respondWithError, respondWithJSON } from "../json.js";
 import { createItem } from "../db/queries/items.js";
 import { ITEMS_MAP } from "../items.js";
+import { addEurodollars } from "../db/queries/stats.js";
 
 export const handlerStartHack = async (req: Request, res: Response) => {
   const token = getBearerToken(req);
@@ -115,9 +116,15 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
         quantity: 1,
         userId: userId,
       });
-    }
 
-    // TODO: add stats to user
+      const addedEurodollars = await addEurodollars(
+        userId,
+        extractResponse.eurodollars
+      );
+      if (!addedEurodollars) {
+        throw new Error("couldn't add eurodollars");
+      }
+    }
   }
 
   respondWithJSON(res, 200, extractResponse);
