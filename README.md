@@ -302,13 +302,6 @@ Authorization: Bearer <your-access-token>
 }
 ```
 
-**Usage Example:**
-
-```bash
-curl -X GET http://localhost:3000/api/hacks/550e8400-e29b-41d4-a716-446655440000/extract \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-```
-
 </details>
 
 <details>
