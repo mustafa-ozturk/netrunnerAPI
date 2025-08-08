@@ -32,11 +32,38 @@ export const completeExpiredHacks = async () => {
     .returning();
 };
 
+export const completeExpiredHacksById = async (hackId: string) => {
+  const now = new Date();
+  const rows = await db
+    .update(hacks)
+    .set({ status: "Completed", updatedAt: now })
+    .where(eq(hacks.id, hackId))
+    .returning();
+
+  return rows.length > 0;
+};
+
 export const getHackById = async (hackId: string) => {
   try {
     const [row] = await db.select().from(hacks).where(eq(hacks.id, hackId));
     return row;
   } catch (error: any) {
     console.log("[DB ERROR]", error?.cause);
+  }
+};
+
+export const extractHackById = async (hackId: string) => {
+  try {
+    const now = new Date();
+    // set the hack status as Extracted
+    const rows = await db
+      .update(hacks)
+      .set({ status: "Extracted", updatedAt: now })
+      .where(and(eq(hacks.id, hackId), eq(hacks.status, "Completed")))
+      .returning();
+
+    return rows.length > 0;
+  } catch (error: any) {
+    console.log("[extractHackById][DB ERROR]", error?.cause);
   }
 };

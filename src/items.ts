@@ -4,7 +4,19 @@ export const ITEMS_INGAME = [
   "research_data",
 ];
 
-export const ITEMS_MAP = {
+export const ITEMS_MAP: Record<
+  string,
+  {
+    name: string;
+    type: string;
+    description: string;
+    rarity: string;
+    baseValue: number;
+    usable?: boolean;
+    equipable?: boolean;
+    persistent?: boolean;
+  }
+> = {
   // Data & Information (Common loot from hacks)
   encrypted_data_shard: {
     name: "Encrypted Data Shard",

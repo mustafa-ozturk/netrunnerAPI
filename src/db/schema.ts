@@ -57,7 +57,7 @@ export const items = pgTable("items", {
     .$onUpdate(() => new Date()),
   itemType: varchar("item_type", { length: 256 }).notNull(),
   itemName: varchar("item_name", { length: 256 }).notNull(),
-  description: varchar("item_name", { length: 256 * 2 }).notNull(),
+  description: varchar("item_description", { length: 256 * 2 }).notNull(),
   quantity: integer().notNull(),
   userId: uuid("user_id")
     .references(() => users.id, { onDelete: "cascade" })

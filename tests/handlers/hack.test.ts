@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app";
+import {
+  completeExpiredHacks,
+  completeExpiredHacksById,
+} from "../../src/db/queries/hacks";
 
 describe("POST /api/hacks", async () => {
   it("should return 401 with error message when no valid access token", async () => {
@@ -77,5 +81,71 @@ describe("GET /api/hacks/:hackId", async () => {
       postHackResponse.body.completesAt
     );
     expect(getHackResponse.body.status).toBe(postHackResponse.body.status);
+  });
+});
+
+describe("GET /api/hacks/:hackdId/extract", async () => {
+  it.only("should extract the hack", async () => {
+    const uniqueUsername = `testuser-${Math.random()
+      .toString(36)
+      .substring(7)}`;
+    const password = "test-password";
+
+    await request(app)
+      .post("/api/users")
+      .send({ username: uniqueUsername, password: password });
+    const loginResponse = await request(app)
+      .post("/api/login")
+      .send({ username: uniqueUsername, password: password });
+
+    const postHackResponse = await request(app)
+      .post("/api/hacks")
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    // forcing early complete
+    await completeExpiredHacksById(postHackResponse.body.id);
+
+    // extract the hack
+    await request(app)
+      .get(`/api/hacks/${postHackResponse.body.id}/extract`)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    const getHackResponse = await request(app)
+      .get(`/api/hacks/${postHackResponse.body.id}`)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    expect(getHackResponse.body.status).toBe("Extracted");
+  });
+
+  it.only("should return 200 with correct fields", async () => {
+    const uniqueUsername = `testuser-${Math.random()
+      .toString(36)
+      .substring(7)}`;
+    const password = "test-password";
+
+    await request(app)
+      .post("/api/users")
+      .send({ username: uniqueUsername, password: password });
+    const loginResponse = await request(app)
+      .post("/api/login")
+      .send({ username: uniqueUsername, password: password });
+
+    const postHackResponse = await request(app)
+      .post("/api/hacks")
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    // forcing early complete
+    await completeExpiredHacksById(postHackResponse.body.id);
+
+    // extract the hack
+    const extractResponse = await request(app)
+      .get(`/api/hacks/${postHackResponse.body.id}/extract`)
+      .set("Authorization", `Bearer ${loginResponse.body.token}`);
+
+    expect(extractResponse.statusCode).toBe(200);
+    expect(extractResponse.body.message).toBeDefined();
+    expect(extractResponse.body.exp).toBeDefined();
+    expect(extractResponse.body.items).toBeDefined();
+    expect(extractResponse.body.eurodollars).toBeDefined();
   });
 });

@@ -7,7 +7,11 @@ import { middlewareErrorHandler } from "./middleware.js";
 import { config } from "./config.js";
 import { handlerCreateUser } from "./handlers/user.js";
 import { handlerLogin } from "./handlers/login.js";
-import { handlerGetHackById, handlerStartHack } from "./handlers/hack.js";
+import {
+  handlerExtractHackById,
+  handlerGetHackById,
+  handlerStartHack,
+} from "./handlers/hack.js";
 import { startHackCompletionJob } from "./jobs/hackJobs.js";
 import { handlerGetInventory } from "./handlers/inventory.js";
 
@@ -59,6 +63,14 @@ app.get("/api/hacks/:hackID", async (req, res, next) => {
 app.get("/api/inventory", async (req, res, next) => {
   try {
     await handlerGetInventory(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/hacks/:hackId/extract", async (req, res, next) => {
+  try {
+    await handlerExtractHackById(req, res);
   } catch (error) {
     next(error);
   }

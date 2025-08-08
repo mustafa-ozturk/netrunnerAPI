@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../index.js";
-import { items } from "../schema.js";
+import { items, NewItem } from "../schema.js";
 
 export const getItemsByUserId = async (userId: string) => {
   try {
@@ -8,5 +8,23 @@ export const getItemsByUserId = async (userId: string) => {
     return rows;
   } catch (error: any) {
     console.log("[DB ERROR]", error?.cause);
+  }
+};
+
+export const createItem = async (newItem: NewItem) => {
+  try {
+    const [row] = await db
+      .insert(items)
+      .values({
+        itemName: newItem.itemName,
+        itemType: newItem.itemType,
+        description: newItem.description,
+        quantity: newItem.quantity,
+        userId: newItem.userId,
+      })
+      .returning();
+    return row;
+  } catch (error: any) {
+    console.log("[createItem][DB ERROR]", error?.cause);
   }
 };

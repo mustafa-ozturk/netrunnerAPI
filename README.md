@@ -224,6 +224,94 @@ Authorization: Bearer <your-access-token>
 </details>
 
 <details>
+<summary>Extract Payload From Completed Hack</summary>
+
+Extract the payload from a completed hack operation.
+
+**Endpoint:** `GET /api/hacks/:hackId/extract`
+
+**Authorization:** Bearer token required
+
+**Path Parameters:**
+
+- `hackId` (string, required) - The unique id of the hack
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (200):**
+
+```json
+{
+  "message": "Payload extracted successfully.",
+  "exp": 500,
+  "items": ["research_data"],
+  "eurodollars": 1500
+}
+```
+
+**Response Fields:**
+
+- `message` (string) - Status message of the extraction attempt
+- `exp` (number) - Experience points gained from the extraction
+- `items` (string[]) - Array of item IDs acquired from the hack
+- `eurodollars` (number) - Currency earned from the extraction
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+**403 Forbidden** - Hack doesn't belong to user:
+
+```json
+{
+  "error": "Access denied."
+}
+```
+
+**404 Not Found** - Hack not found:
+
+```json
+{
+  "error": "Hack operation not found."
+}
+```
+
+**409 Conflict** - Hack not ready for extraction:
+
+```json
+{
+  "error": "Hack operation not ready for extraction."
+}
+```
+
+**409 Conflict** - Payload already extracted:
+
+```json
+{
+  "error": "Payload already extracted from this hack."
+}
+```
+
+**Usage Example:**
+
+```bash
+curl -X GET http://localhost:3000/api/hacks/550e8400-e29b-41d4-a716-446655440000/extract \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+```
+
+</details>
+
+<details>
 <summary>Get Inventory</summary>
 
 Retrieve all items in your inventory.
