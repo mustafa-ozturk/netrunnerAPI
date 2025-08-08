@@ -349,6 +349,55 @@ quantity: number;
 
 </details>
 
+<details>
+<summary>Get User Stats</summary>
+
+Retrieve your current statistics and progression.
+
+**Endpoint:** `GET /api/stats`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (200):**
+
+```json
+{
+  "id": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "userId": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "experience": 5000,
+  "eurodollars": 15000,
+  "reputation": 250,
+  "level": 5,
+  "createdAt": "2025-08-04T14:30:00.000Z",
+  "updatedAt": "2025-08-04T14:30:00.000Z"
+}
+```
+
+**Response Fields:**
+
+- `experience` (number) - Total experience points earned
+- `eurodollars` (number) - Current currency balance
+- `reputation` (number) - Character reputation in the netrunner community
+- `level` (number) - Character level based on experience (calculated)
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+</details>
+
 ## Developing
 
 ### Prerequisites

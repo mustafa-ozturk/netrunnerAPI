@@ -14,6 +14,7 @@ import {
 } from "./handlers/hack.js";
 import { startHackCompletionJob } from "./jobs/hackJobs.js";
 import { handlerGetInventory } from "./handlers/inventory.js";
+import { handlerGetStat } from "./handlers/stats.js";
 
 // automatic migrations
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -71,6 +72,14 @@ app.get("/api/inventory", async (req, res, next) => {
 app.get("/api/hacks/:hackId/extract", async (req, res, next) => {
   try {
     await handlerExtractHackById(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/stats", async (req, res, next) => {
+  try {
+    await handlerGetStat(req, res);
   } catch (error) {
     next(error);
   }

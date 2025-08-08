@@ -4,7 +4,7 @@ import { NewUser } from "../db/schema.js";
 import { BadRequestError } from "../error.js";
 import { respondWithJSON } from "../json.js";
 import { hashPassword } from "../auth.js";
-import { createNewStat } from "src/db/queries/stats.js";
+import { createNewStat } from "../db/queries/stats.js";
 
 export type UserResponse = Omit<NewUser, "hashedPassword">;
 
