@@ -5,7 +5,7 @@
   <br>NetrunnerAPI
 </h1>
   <p align="center">
-A Cyberpunk-themed hacking game API.<br>Hack, steal data, and sell it on a black market auction with your own custom client and tools.
+A Cyberpunk-themed hacking game.<br>Build your own custom client to play.
     <br />
     <a href="#about">About</a>
     ·
@@ -18,6 +18,21 @@ A Cyberpunk-themed hacking game API.<br>Hack, steal data, and sell it on a black
 > **🚧 Work in Progress:** Expect potential breaking changes as new game features are added.
 
 ## About
+
+"Wake the f\*\*\* up samurai, we've got HTTP requests to make."
+
+This is a cyberpunk-themed hacking game REST API. You can play it by building your own interface and making HTTP requests.
+
+**How it works:**
+
+- Create your netrunner and authenticate
+- Start hack operations and wait for completion
+- Attempt to extract a payload from completed operations
+- Build up your stats
+
+**Features:**
+
+TODO
 
 ## Documentation
 
