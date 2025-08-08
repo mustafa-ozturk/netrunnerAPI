@@ -38,3 +38,17 @@ export const addEurodollars = async (userId: string, eurodollars: number) => {
     console.log("[addEurodollars][DB ERROR]", error?.cause);
   }
 };
+
+export const addExperience = async (userId: string, experience: number) => {
+  try {
+    const rows = await db
+      .update(stats)
+      .set({ experience: sql`${stats.experience} + ${experience}` })
+      .where(eq(stats.userId, userId))
+      .returning();
+
+    return rows.length > 0;
+  } catch (error: any) {
+    console.log("[addExperience][DB ERROR]", error?.cause);
+  }
+};

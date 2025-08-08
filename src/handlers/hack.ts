@@ -10,7 +10,7 @@ import { NewHack } from "../db/schema.js";
 import { respondWithError, respondWithJSON } from "../json.js";
 import { createItem } from "../db/queries/items.js";
 import { ITEMS_MAP } from "../items.js";
-import { addEurodollars } from "../db/queries/stats.js";
+import { addEurodollars, addExperience } from "../db/queries/stats.js";
 
 export const handlerStartHack = async (req: Request, res: Response) => {
   const token = getBearerToken(req);
@@ -123,6 +123,11 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
       );
       if (!addedEurodollars) {
         throw new Error("couldn't add eurodollars");
+      }
+
+      const addedExperience = await addExperience(userId, extractResponse.exp);
+      if (!addedExperience) {
+        throw new Error("couldnt add experience");
       }
     }
   }
