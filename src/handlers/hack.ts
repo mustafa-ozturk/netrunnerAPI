@@ -4,6 +4,7 @@ import { config } from "../config.js";
 import {
   createHack,
   extractHackById,
+  extractHackByIdForced,
   getHackById,
 } from "../db/queries/hacks.js";
 import { NewHack } from "../db/schema.js";
@@ -72,6 +73,8 @@ type extractResponseType = {
 
 export const handlerExtractHackById = async (req: Request, res: Response) => {
   const { hackId } = req.params;
+  // TODO: force should only work if user is admin
+  const force = req.query.force || false;
   const token = getBearerToken(req);
   const userId = validateJWT(token, config.jwt.secret);
 
@@ -84,7 +87,7 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
     return respondWithError(res, 403, "Access denied.");
   }
 
-  if (hackDetails.status === "Extracted") {
+  if (!force && hackDetails.status === "Extracted") {
     return respondWithError(
       res,
       409,
@@ -92,7 +95,7 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
     );
   }
 
-  if (hackDetails.status === "In Progress") {
+  if (!force && hackDetails.status === "In Progress") {
     return respondWithError(
       res,
       409,
@@ -101,9 +104,16 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
   }
 
   // set the hack to extracted
-  const extracted = await extractHackById(hackId);
-  if (!extracted) {
-    throw new Error("could not extract hack");
+  if (force) {
+    const extracted = await extractHackByIdForced(hackId);
+    if (!extracted) {
+      throw new Error("could not extract hack");
+    }
+  } else {
+    const extracted = await extractHackById(hackId);
+    if (!extracted) {
+      throw new Error("could not extract hack");
+    }
   }
 
   let extractResponse: extractResponseType = {

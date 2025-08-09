@@ -72,3 +72,19 @@ export const extractHackById = async (hackId: string) => {
     console.log("[extractHackById][DB ERROR]", error?.cause);
   }
 };
+
+export const extractHackByIdForced = async (hackId: string) => {
+  try {
+    const now = new Date();
+    // set the hack status as Extracted regardless of current status
+    const rows = await db
+      .update(hacks)
+      .set({ status: "Extracted", updatedAt: now })
+      .where(eq(hacks.id, hackId))
+      .returning();
+
+    return rows.length > 0;
+  } catch (error: any) {
+    console.log("[extractHackByIdForced][DB ERROR]", error?.cause);
+  }
+};
