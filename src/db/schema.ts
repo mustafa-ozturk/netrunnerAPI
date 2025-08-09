@@ -45,6 +45,7 @@ export const hacks = pgTable("hacks", {
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
   status: varchar("status", { length: 256 }).notNull(),
+  target: varchar("target", { length: 256 }).notNull(), // TODO: will reference a table in the future
 });
 export type NewHack = typeof hacks.$inferInsert;
 

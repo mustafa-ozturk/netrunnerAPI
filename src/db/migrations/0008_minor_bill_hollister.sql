@@ -1,0 +1,1 @@
+ALTER TABLE "hacks" ADD COLUMN "target" varchar(256) NOT NULL;

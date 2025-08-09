@@ -3,7 +3,11 @@ import { getHackDuration } from "../../utils.js";
 import { db } from "../index.js";
 import { hacks } from "../schema.js";
 
-export const createHack = async (userID: string, durationMs?: number) => {
+export const createHack = async (
+  userID: string,
+  target: string,
+  durationMs?: number
+) => {
   try {
     const hackDuration = durationMs ?? getHackDuration();
 
@@ -13,6 +17,7 @@ export const createHack = async (userID: string, durationMs?: number) => {
         userId: userID,
         completesAt: new Date(Date.now() + hackDuration),
         status: "In Progress",
+        target: target,
       })
       .returning();
 

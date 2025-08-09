@@ -11,12 +11,20 @@ import { respondWithError, respondWithJSON } from "../json.js";
 import { createItem } from "../db/queries/items.js";
 import { ITEMS_MAP } from "../items.js";
 import { addEurodollars, addExperience } from "../db/queries/stats.js";
+import { TARGETS } from "../gamedata.js";
+import { BadRequestError } from "../error.js";
 
 export const handlerStartHack = async (req: Request, res: Response) => {
+  const { targetId } = req.params;
   const token = getBearerToken(req);
   const userID = validateJWT(token, config.jwt.secret);
 
-  const hackDetails = await createHack(userID);
+  const target = TARGETS[targetId];
+  if (!target) {
+    throw new BadRequestError("Target doesn't exist");
+  }
+
+  const hackDetails = await createHack(userID, target.id);
   if (!hackDetails) {
     throw new Error("Couldn't start hack");
   }
@@ -28,6 +36,7 @@ export const handlerStartHack = async (req: Request, res: Response) => {
     updatedAt: hackDetails.updatedAt,
     completesAt: hackDetails.completesAt,
     status: hackDetails.status,
+    target: target.id,
   } satisfies NewHack);
 };
 
@@ -48,6 +57,7 @@ export const handlerGetHackById = async (req: Request, res: Response) => {
     updatedAt: hackDetails.updatedAt,
     completesAt: hackDetails.completesAt,
     status: hackDetails.status,
+    target: hackDetails.target,
   } satisfies NewHack);
 };
 

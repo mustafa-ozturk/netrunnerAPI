@@ -1,0 +1,1 @@
+ALTER TABLE "hacks" ALTER COLUMN "target" DROP NOT NULL;

@@ -57,6 +57,27 @@
       "when": 1754680626197,
       "tag": "0007_young_hercules",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1754688048961,
+      "tag": "0008_minor_bill_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1754688095997,
+      "tag": "0009_lying_raider",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1754688138040,
+      "tag": "0010_quiet_whizzer",
+      "breakpoints": true
     }
   ]
 }

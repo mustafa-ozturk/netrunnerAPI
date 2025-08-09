@@ -5,10 +5,11 @@ import {
   completeExpiredHacks,
   completeExpiredHacksById,
 } from "../../src/db/queries/hacks";
+import { TARGETS } from "../../src/gamedata";
 
-describe("POST /api/hacks", async () => {
+describe("POST /api/hacks/:targetId", async () => {
   it("should return 401 with error message when no valid access token", async () => {
-    const response = await request(app).post("/api/hacks");
+    const response = await request(app).post("/api/hacks/testTarget");
 
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBeDefined();
@@ -19,6 +20,7 @@ describe("POST /api/hacks", async () => {
       .toString(36)
       .substring(7)}`;
     const password = "test-password";
+    const target = TARGETS.megacorp_financials;
 
     await request(app)
       .post("/api/users")
@@ -28,7 +30,7 @@ describe("POST /api/hacks", async () => {
       .send({ username: uniqueUsername, password: password });
 
     const response = await request(app)
-      .post("/api/hacks")
+      .post(`/api/hacks/${target.id}`)
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     expect(response.statusCode).toBe(201);
@@ -52,6 +54,7 @@ describe("GET /api/hacks/:hackId", async () => {
       .toString(36)
       .substring(7)}`;
     const password = "test-password";
+    const target = TARGETS.security_contractor;
 
     await request(app)
       .post("/api/users")
@@ -61,7 +64,7 @@ describe("GET /api/hacks/:hackId", async () => {
       .send({ username: uniqueUsername, password: password });
 
     const postHackResponse = await request(app)
-      .post("/api/hacks")
+      .post(`/api/hacks/${target.id}`)
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     const getHackResponse = await request(app)
@@ -90,6 +93,7 @@ describe("GET /api/hacks/:hackdId/extract", async () => {
       .toString(36)
       .substring(7)}`;
     const password = "test-password";
+    const target = TARGETS.security_contractor;
 
     await request(app)
       .post("/api/users")
@@ -99,7 +103,7 @@ describe("GET /api/hacks/:hackdId/extract", async () => {
       .send({ username: uniqueUsername, password: password });
 
     const postHackResponse = await request(app)
-      .post("/api/hacks")
+      .post(`/api/hacks/${target.id}`)
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     // forcing early complete
@@ -122,6 +126,7 @@ describe("GET /api/hacks/:hackdId/extract", async () => {
       .toString(36)
       .substring(7)}`;
     const password = "test-password";
+    const target = TARGETS.security_contractor;
 
     await request(app)
       .post("/api/users")
@@ -131,7 +136,7 @@ describe("GET /api/hacks/:hackdId/extract", async () => {
       .send({ username: uniqueUsername, password: password });
 
     const postHackResponse = await request(app)
-      .post("/api/hacks")
+      .post(`/api/hacks/${target.id}`)
       .set("Authorization", `Bearer ${loginResponse.body.token}`);
 
     // forcing early complete
