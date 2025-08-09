@@ -1,3 +1,11 @@
+// in milliseconds
+export const DIFFICULTY_TO_DURATION_MAP: Record<string, number> = {
+  easy: 10 * 1000,
+  medium: 10 * 60 * 1000,
+  hard: 60 * 60 * 1000,
+  legendary: 60 * 60 * 24 * 1000,
+};
+
 export const TARGETS: Record<
   string,
   {

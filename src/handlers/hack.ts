@@ -11,7 +11,7 @@ import { respondWithError, respondWithJSON } from "../json.js";
 import { createItem } from "../db/queries/items.js";
 import { ITEMS_MAP } from "../items.js";
 import { addEurodollars, addExperience } from "../db/queries/stats.js";
-import { TARGETS } from "../gamedata.js";
+import { DIFFICULTY_TO_DURATION_MAP, TARGETS } from "../gamedata.js";
 import { BadRequestError } from "../error.js";
 
 export const handlerStartHack = async (req: Request, res: Response) => {
@@ -24,7 +24,9 @@ export const handlerStartHack = async (req: Request, res: Response) => {
     throw new BadRequestError("Target doesn't exist");
   }
 
-  const hackDetails = await createHack(userID, target.id);
+  const hackDuration = DIFFICULTY_TO_DURATION_MAP[target.difficulty];
+
+  const hackDetails = await createHack(userID, target.id, hackDuration);
   if (!hackDetails) {
     throw new Error("Couldn't start hack");
   }
