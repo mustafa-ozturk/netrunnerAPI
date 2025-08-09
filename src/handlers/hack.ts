@@ -124,9 +124,15 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
   };
   // TODO: chance of being traced
   // check if they will get a reward
-  const successfulExtraction = hackExtracted();
+  const target = TARGETS[hackDetails.target];
+  const successfulExtraction = hackExtracted(
+    target.difficulty as keyof typeof hackDifficulties
+  );
   if (successfulExtraction) {
-    extractResponse = getHackExtractionRewards();
+    extractResponse = getHackExtractionRewards(
+      target.difficulty as keyof typeof hackDifficulties,
+      target.possibleLoot
+    );
 
     if (extractResponse.items.length > 0) {
       const item = ITEMS_MAP[extractResponse.items[0]];
@@ -157,48 +163,35 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
   respondWithJSON(res, 200, extractResponse);
 };
 
-export const hackTiers = {
-  S: 1000, // 10%
-  A: 750, // 25%
-  B: 500, // 50%
-  C: 250, // 75%
-  D: 0, // 100%
+export const hackDifficulties = {
+  legendary: 1000, // 10%
+  hard: 750, // 25%
+  medium: 500, // 50%
+  easy: 0, // 100%
+};
+export const hackDifficultyToExp = {
+  legendary: 1000,
+  hard: 750,
+  medium: 500,
+  easy: 250,
 };
 
-export const hackTiersToExp = {
-  S: 1000,
-  A: 750,
-  B: 500,
-  C: 250,
-  D: 0,
+export const hackDifficultyToEurodollars = {
+  legendary: 3000,
+  hard: 2250,
+  medium: 1500,
+  easy: 500,
 };
 
-export const hackTiersToEurodollars = {
-  S: 1000 * 3,
-  A: 750 * 3,
-  B: 500 * 3,
-  C: 250 * 3,
-  D: 100,
-};
-
-export const hackTiersToItems = {
-  S: ["encrypted_data_shard"],
-  A: ["financial_records"],
-  B: ["research_data"],
-  C: [],
-  D: [],
-};
-
-// for now lets say all hacks are B tier hacks
-export const hackExtracted = () => {
+export const hackExtracted = (difficulty: keyof typeof hackDifficulties) => {
+  const difficultyValue = hackDifficulties[difficulty];
   // minimum of 10% success rate
   const minimumSuccessRate = 10;
   const scalingFactor = 10;
-  // S tier: 100 - (1000 / 10) => 100 - 100 => 0  => 10% chance to hack (due to min)
-  // A tier: 100 - (750 / 10)  => 100 - 75  => 75 => 25% chance to hack
+
   const successRate = Math.max(
     minimumSuccessRate,
-    100 - hackTiers.B / scalingFactor
+    100 - difficultyValue / scalingFactor
   );
   const randomNum = Math.floor(Math.random() * 100); // 0-99 (100 values)
 
@@ -209,12 +202,18 @@ export const hackExtracted = () => {
   return true;
 };
 
-export const getHackExtractionRewards = (): extractResponseType => {
-  const tier = "B";
+export const getHackExtractionRewards = (
+  difficulty: keyof typeof hackDifficulties,
+  targetPossibleLoot: string[]
+): extractResponseType => {
+  // for now just earn one item max
+  // TODO: should be able to earn more iterms on bigger difficulties
+  const randomIndex = Math.round(Math.random() * targetPossibleLoot.length);
+  const item = targetPossibleLoot[randomIndex];
   return {
     message: "Payload extracted successfully.",
-    exp: hackTiersToExp[tier],
-    items: hackTiersToItems[tier],
-    eurodollars: hackTiersToEurodollars[tier],
+    exp: hackDifficultyToExp[difficulty],
+    items: [item],
+    eurodollars: hackDifficultyToEurodollars[difficulty],
   };
 };
