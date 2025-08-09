@@ -125,9 +125,9 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
   // TODO: chance of being traced
   // check if they will get a reward
   const target = TARGETS[hackDetails.target];
-  const successfulExtraction = hackExtracted(
-    target.difficulty as keyof typeof hackDifficulties
-  );
+  const successfulExtraction = force
+    ? true
+    : hackExtracted(target.difficulty as keyof typeof hackDifficulties);
   if (successfulExtraction) {
     extractResponse = getHackExtractionRewards(
       target.difficulty as keyof typeof hackDifficulties,
