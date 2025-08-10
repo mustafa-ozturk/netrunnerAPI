@@ -1,3 +1,4 @@
+import { eq, not } from "drizzle-orm";
 import { db } from "../index.js";
 import { marketItems, NewMarketItem } from "../schema.js";
 
@@ -19,5 +20,6 @@ export const purchaseMarketItems = async () => {
   return await db
     .update(marketItems)
     .set({ status: "Bought", updatedAt: now })
+    .where(not(eq(marketItems.status, "Bought")))
     .returning();
 };
