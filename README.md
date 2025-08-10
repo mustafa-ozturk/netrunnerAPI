@@ -145,6 +145,8 @@ Authenticate a user and receive access tokens.
 
 </details>
 
+<!-- -------------------------------------------- -->
+
 <details>
 <summary>Scan for Targets</summary>
 
@@ -209,6 +211,8 @@ Authorization: Bearer <your-access-token>
 
 </details>
 
+<!-- -------------------------------------------- -->
+
 <details>
 <summary>Start Hacking</summary>
 Initiate a new hacking operation.
@@ -252,6 +256,8 @@ Authorization: Bearer <your-access-token>
 ```
 
 </details>
+
+<!-- -------------------------------------------- -->
 
 <details>
 <summary>Get Hack by ID</summary>
@@ -301,6 +307,8 @@ Authorization: Bearer <your-access-token>
 ```
 
 </details>
+
+<!-- --------------------------------------------- -->
 
 <details>
 <summary>Extract Payload From Completed Hack</summary>
@@ -382,6 +390,8 @@ Authorization: Bearer <your-access-token>
 ```
 
 </details>
+
+<!-- -------------------------------------------- -->
 
 <details>
 <summary>Get Inventory</summary>
@@ -468,6 +478,76 @@ Authorization: Bearer <your-access-token>
 **Error Responses:**
 
 **401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+</details>
+
+<!-- -------------------------------------------- -->
+
+<details>
+<summary>List Item on Market</summary>
+
+List one or more items from your inventory on the black market.
+
+**Endpoint:** `POST /api/market`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Request Body:**
+
+```json
+{
+  "itemIds": ["zero_day_exploit", "encrypted_data_shard"]
+}
+```
+
+**Parameters:**
+
+- `itemIds` (string[], required) – Array of item IDs from your inventory to list on the market
+
+**Success Response (201):**
+
+```json
+{
+  "marketItems": [
+    {
+      "itemId": "zero_day_exploit",
+      "userId": "2803a17a-7ba1-45d8-afa6-5772a0b92af7"
+    },
+    {
+      "itemId": "encrypted_data_shard",
+      "userId": "2803a17a-7ba1-45d8-afa6-5772a0b92af7"
+    }
+  ]
+}
+```
+
+**Response Fields:**
+
+- `marketItems` (array) – List of items now available on the market
+
+**Error Responses:**
+
+**400 Bad Request** – Missing parameters:
+
+```json
+{
+  "error": "itemIds required"
+}
+```
+
+**401 Unauthorized** – Missing or invalid token:
 
 ```json
 {

@@ -143,6 +143,7 @@ export const handlerExtractHackById = async (req: Request, res: Response) => {
         description: item.description,
         quantity: 1,
         userId: userId,
+        value: item.baseValue,
       });
 
       const addedEurodollars = await addEurodollars(

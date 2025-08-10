@@ -63,6 +63,7 @@ export const items = pgTable("items", {
   userId: uuid("user_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
+  value: integer().default(0).notNull(),
 });
 export type NewItem = typeof items.$inferInsert;
 
@@ -80,3 +81,19 @@ export const stats = pgTable("stats", {
   eurodollars: integer().default(0),
 });
 export type NewStat = typeof items.$inferInsert;
+
+export const marketItems = pgTable("market_items", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  itemId: uuid("item_id")
+    .references(() => items.id, { onDelete: "cascade" })
+    .notNull(),
+});
+export type NewMarketItem = typeof marketItems.$inferInsert;

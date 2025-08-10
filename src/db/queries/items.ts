@@ -21,6 +21,7 @@ export const createItem = async (newItem: NewItem) => {
         description: newItem.description,
         quantity: newItem.quantity,
         userId: newItem.userId,
+        value: newItem.value,
       })
       .returning();
     return row;

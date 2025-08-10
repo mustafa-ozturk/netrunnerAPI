@@ -14,8 +14,19 @@ export const TARGETS: Record<
     description: string;
     difficulty: string;
     possibleLoot: string[];
+    value: number;
   }
 > = {
+  security_contractor: {
+    id: "security_contractor",
+    name: "Mega-corp Security Division",
+    description:
+      "Private security firm's systems containing ICE programs and admin access tools.",
+    difficulty: "easy",
+    possibleLoot: ["ice_breaker", "admin_keycard", "trace_cleaner"],
+    value: 1000,
+  },
+
   megacorp_financials: {
     id: "megacorp_financials",
     name: "Mega-corp Financial Division",
@@ -27,15 +38,7 @@ export const TARGETS: Record<
       "corporate_blackmail",
       "encrypted_data_shard",
     ],
-  },
-
-  private_research_lab: {
-    id: "private_research_lab",
-    name: "Private Research Laboratory",
-    description:
-      "Cutting-edge medical research facility with experimental data and prototype neural interfaces.",
-    difficulty: "hard",
-    possibleLoot: ["research_data", "neural_interface", "memory_chip"],
+    value: 2000,
   },
 
   corporate_email_server: {
@@ -49,15 +52,17 @@ export const TARGETS: Record<
       "access_credentials",
       "corporate_blackmail",
     ],
+    value: 2000,
   },
 
-  security_contractor: {
-    id: "security_contractor",
-    name: "Mega-corp Security Division",
+  private_research_lab: {
+    id: "private_research_lab",
+    name: "Private Research Laboratory",
     description:
-      "Private security firm's systems containing ICE programs and admin access tools.",
-    difficulty: "easy",
-    possibleLoot: ["ice_breaker", "admin_keycard", "trace_cleaner"],
+      "Cutting-edge medical research facility with experimental data and prototype neural interfaces.",
+    difficulty: "hard",
+    possibleLoot: ["research_data", "neural_interface", "memory_chip"],
+    value: 4000,
   },
 
   underground_broker: {
@@ -67,5 +72,6 @@ export const TARGETS: Record<
       "Illegal data marketplace with zero-day exploits and system backdoors for sale.",
     difficulty: "legendary",
     possibleLoot: ["zero_day_exploit", "system_backdoor", "buffer_overflow"],
+    value: 8000,
   },
 };
