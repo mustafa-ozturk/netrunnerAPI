@@ -17,6 +17,7 @@ import { handlerGetInventory } from "./handlers/inventory.js";
 import { handlerGetStat } from "./handlers/stats.js";
 import { handlerScan } from "./handlers/scan.js";
 import { handlerAddItemToMarket } from "./handlers/marketItems.js";
+import { startMarketItemsPurchasingJob } from "./jobs/marketJobs.js";
 
 // automatic migrations
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -28,6 +29,7 @@ app.use(express.json());
 
 // background jobs
 startHackCompletionJob();
+startMarketItemsPurchasingJob();
 
 // unhandled async errors don’t automatically go to the error handler.
 // so we are catching them

@@ -1,0 +1,1 @@
+ALTER TABLE "market_items" ADD COLUMN "status" varchar(256) DEFAULT 'Auctioned';

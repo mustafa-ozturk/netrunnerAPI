@@ -12,3 +12,12 @@ export const createMarketItems = async (newMarketItems: NewMarketItem[]) => {
     console.log("[createMarketItems][DB ERROR]", error?.cause);
   }
 };
+
+export const purchaseMarketItems = async () => {
+  const now = new Date();
+
+  return await db
+    .update(marketItems)
+    .set({ status: "Bought", updatedAt: now })
+    .returning();
+};

@@ -95,5 +95,6 @@ export const marketItems = pgTable("market_items", {
   itemId: uuid("item_id")
     .references(() => items.id, { onDelete: "cascade" })
     .notNull(),
+  status: varchar("status", { length: 256 }).default("Auctioned"),
 });
 export type NewMarketItem = typeof marketItems.$inferInsert;
