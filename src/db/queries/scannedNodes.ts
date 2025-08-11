@@ -22,3 +22,12 @@ export const getScannedNodesByUserId = async (userId: string) => {
     console.log("[getScannedNodesByUserId][DB ERROR]:", error?.cause);
   }
 };
+
+export const deleteScannedNodeById = async (id: string) => {
+  try {
+    const rows = await db.delete(scannedNodes).where(eq(scannedNodes.id, id));
+    return rows.length > 0;
+  } catch (error: any) {
+    console.log("[deleteScannedNodeById][DB ERROR]:", error?.cause);
+  }
+};
