@@ -8,6 +8,7 @@ import { config } from "./config.js";
 import { handlerCreateUser } from "./handlers/user.js";
 import { handlerLogin } from "./handlers/login.js";
 import {
+  handleInitiateHack,
   handlerExtractHackById,
   handlerGetHackById,
   handlerStartHack,
@@ -54,21 +55,21 @@ app.post("/api/login", async (req, res, next) => {
   }
 });
 
-app.post("/api/hacks/:targetId", async (req, res, next) => {
-  try {
-    await handlerStartHack(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
+// app.post("/api/hacks/:targetId", async (req, res, next) => {
+//   try {
+//     await handlerStartHack(req, res);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
-app.get("/api/hacks/:hackID", async (req, res, next) => {
-  try {
-    await handlerGetHackById(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
+// app.get("/api/hacks/:hackID", async (req, res, next) => {
+//   try {
+//     await handlerGetHackById(req, res);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 app.get("/api/inventory", async (req, res, next) => {
   try {
@@ -78,13 +79,13 @@ app.get("/api/inventory", async (req, res, next) => {
   }
 });
 
-app.get("/api/hacks/:hackId/extract", async (req, res, next) => {
-  try {
-    await handlerExtractHackById(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
+// app.get("/api/hacks/:hackId/extract", async (req, res, next) => {
+//   try {
+//     await handlerExtractHackById(req, res);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 app.get("/api/stats", async (req, res, next) => {
   try {
@@ -94,13 +95,13 @@ app.get("/api/stats", async (req, res, next) => {
   }
 });
 
-app.get("/api/scan", async (req, res, next) => {
-  try {
-    await handlerScan(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
+// app.get("/api/scan", async (req, res, next) => {
+//   try {
+//     await handlerScan(req, res);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 app.post("/api/market", async (req, res, next) => {
   try {
@@ -133,6 +134,15 @@ app.post("/api/scan/terminate", async (req, res, next) => {
 app.get("/api/scan/nodes", async (req, res, next) => {
   try {
     await handleGetScannedNodes(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// HACKING
+app.post("/api/hack/:nodeName", async (req, res, next) => {
+  try {
+    await handleInitiateHack(req, res);
   } catch (error) {
     next(error);
   }

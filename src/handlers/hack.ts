@@ -13,7 +13,8 @@ import { createItem } from "../db/queries/items.js";
 import { ITEMS_MAP } from "../items.js";
 import { addEurodollars, addExperience } from "../db/queries/stats.js";
 import { DIFFICULTY_TO_DURATION_MAP, TARGETS } from "../gamedata.js";
-import { BadRequestError } from "../error.js";
+import { BadRequestError, NotFoundError } from "../error.js";
+import { getScannedNodesByUserId } from "../db/queries/scannedNodes.js";
 
 export const handlerStartHack = async (req: Request, res: Response) => {
   const { targetId } = req.params;
@@ -217,4 +218,39 @@ export const getHackExtractionRewards = (
     items: [item],
     eurodollars: hackDifficultyToEurodollars[difficulty],
   };
+};
+
+export const handleInitiateHack = async (req: Request, res: Response) => {
+  const token = getBearerToken(req);
+  const userId = validateJWT(token, config.jwt.secret);
+
+  const { nodeName } = req.params;
+  if (!nodeName) {
+    throw new BadRequestError("nodeName param missing");
+  }
+
+  const userNodes = await getScannedNodesByUserId(userId);
+  const userNodesNames = userNodes?.map((node) => node.name);
+
+  if (!userNodesNames?.includes(nodeName)) {
+    throw new NotFoundError("Node must be scanned first.");
+  }
+
+  const target = TARGETS[nodeName];
+  const hackDuration = DIFFICULTY_TO_DURATION_MAP[target.difficulty];
+
+  const hackDetails = await createHack(userId, target.id, hackDuration);
+  if (!hackDetails) {
+    throw new Error("Couldn't start hack");
+  }
+
+  respondWithJSON(res, 202, {
+    id: hackDetails.id,
+    userId: hackDetails.userId,
+    createdAt: hackDetails.createdAt,
+    updatedAt: hackDetails.updatedAt,
+    completesAt: hackDetails.completesAt,
+    status: hackDetails.status,
+    target: target.id,
+  } satisfies NewHack);
 };

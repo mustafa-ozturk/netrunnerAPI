@@ -131,3 +131,59 @@ _None_
 ```
 
 </details>
+
+<details>
+<summary>Initiate Hack on Node</summary>
+
+Deploy hacking protocols to breach a vulnerable node you've previously scanned.
+
+**Endpoint:** `POST /api/hack/:nodeName`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Path Parameters:**
+
+- `nodeName` (string, required) – The name of the node you want to hack (must be discovered via scanning).
+
+**Request Body:**  
+_None_
+
+**Success Response (202):**
+
+```json
+{
+  "id": "0e72e884-5896-4cd9-b0ec-d83fe7a14d9b",
+  "userId": "e5dfc6c7-e257-4563-bf1a-e069be274db4",
+  "createdAt": "2025-08-11T19:04:31.976Z",
+  "updatedAt": "2025-08-11T19:04:31.976Z",
+  "completesAt": "2025-08-11T23:04:41.975Z",
+  "status": "In Progress",
+  "target": "security_contractor"
+}
+```
+
+**Error Responses:**
+
+**401 Unauthorized** – Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+**404 Not Found** – Node not discovered by user:
+
+```json
+{
+  "error": "Node must be scanned first."
+}
+```
+
+</details>
