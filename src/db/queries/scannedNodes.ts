@@ -25,9 +25,23 @@ export const getScannedNodesByUserId = async (userId: string) => {
 
 export const deleteScannedNodeById = async (id: string) => {
   try {
-    const rows = await db.delete(scannedNodes).where(eq(scannedNodes.id, id));
+    const rows = await db
+      .delete(scannedNodes)
+      .where(eq(scannedNodes.id, id))
+      .returning();
     return rows.length > 0;
   } catch (error: any) {
     console.log("[deleteScannedNodeById][DB ERROR]:", error?.cause);
+  }
+};
+export const deleteScannedNodeByName = async (name: string) => {
+  try {
+    const rows = await db
+      .delete(scannedNodes)
+      .where(eq(scannedNodes.name, name))
+      .returning();
+    return rows.length > 0;
+  } catch (error: any) {
+    console.log("[deleteScannedNodeByName][DB ERROR]:", error?.cause);
   }
 };

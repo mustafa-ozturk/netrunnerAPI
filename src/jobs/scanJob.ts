@@ -25,7 +25,9 @@ const scanNetwork = async (userId: string) => {
   const randomIndex = Math.round(Math.random() * potentialNodes.length);
   const randomNodeName = potentialNodes[randomIndex];
   if (!randomNodeName) {
-    throw new Error("no randomNodeName found");
+    throw new Error(
+      `no randomNodeName found. potentialNodes: ${potentialNodes}`
+    );
   }
 
   const createdScannedNode = await createScannedNode({
