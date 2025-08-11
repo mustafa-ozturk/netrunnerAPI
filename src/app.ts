@@ -18,7 +18,10 @@ import { handlerGetStat } from "./handlers/stats.js";
 import { handlerScan } from "./handlers/scan.js";
 import { handlerAddItemToMarket } from "./handlers/marketItems.js";
 import { startMarketItemsPurchasingJob } from "./jobs/marketJobs.js";
-import { handleInitiateScan } from "./handlers/scanning.js";
+import {
+  handleInitiateScan,
+  handleTerminateScan,
+} from "./handlers/scanning.js";
 
 // automatic migrations
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -113,6 +116,14 @@ app.post("/api/market", async (req, res, next) => {
 app.post("/api/scan/initiate", async (req, res, next) => {
   try {
     await handleInitiateScan(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/scan/terminate", async (req, res, next) => {
+  try {
+    await handleTerminateScan(req, res);
   } catch (error) {
     next(error);
   }

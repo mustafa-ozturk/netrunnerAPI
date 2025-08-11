@@ -39,3 +39,39 @@ _None_
 ```
 
 </details>
+
+<details>
+<summary>Terminate Background Network Scan</summary>
+
+Terminate the active background network scan for the authenticated user.
+
+**Endpoint:** `POST /api/scan/terminate`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Request Body:**  
+_None_
+
+**Success Response (202):**
+
+```json
+{
+  "message": "Network scan terminated."
+}
+```
+
+**Error Responses:**
+
+**401 Unauthorized** – Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```

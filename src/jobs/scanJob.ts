@@ -63,5 +63,6 @@ export const stopUserScanTask = (userId: string) => {
     delete userScanTasks[userId];
     return true;
   }
+  console.log("Network scan terminated.");
   return false;
 };
