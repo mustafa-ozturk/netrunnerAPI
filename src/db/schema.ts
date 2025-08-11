@@ -98,3 +98,18 @@ export const marketItems = pgTable("market_items", {
   status: varchar("status", { length: 256 }).default("Auctioned"),
 });
 export type NewMarketItem = typeof marketItems.$inferInsert;
+
+// Nodes for scanning
+export const scannedNodes = pgTable("scanned_nodes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  name: varchar("name", { length: 256 }).notNull(),
+});
+export type NewScannedNode = typeof scannedNodes.$inferInsert;

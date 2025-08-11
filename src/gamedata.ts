@@ -6,6 +6,7 @@ export const DIFFICULTY_TO_DURATION_MAP: Record<string, number> = {
   legendary: 60 * 60 * 24 * 1000,
 };
 
+// TODO: rename to NODES
 export const TARGETS: Record<
   string,
   {
