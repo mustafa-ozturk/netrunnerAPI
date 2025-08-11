@@ -19,6 +19,7 @@ import { handlerScan } from "./handlers/scan.js";
 import { handlerAddItemToMarket } from "./handlers/marketItems.js";
 import { startMarketItemsPurchasingJob } from "./jobs/marketJobs.js";
 import {
+  handleGetScannedNodes,
   handleInitiateScan,
   handleTerminateScan,
 } from "./handlers/scanning.js";
@@ -124,6 +125,14 @@ app.post("/api/scan/initiate", async (req, res, next) => {
 app.post("/api/scan/terminate", async (req, res, next) => {
   try {
     await handleTerminateScan(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/scan/nodes", async (req, res, next) => {
+  try {
+    await handleGetScannedNodes(req, res);
   } catch (error) {
     next(error);
   }
