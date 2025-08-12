@@ -9,7 +9,11 @@ A Cyberpunk-themed hacking game.<br>Build your own custom client to play.
     <br />
     <a href="#about">About</a>
     ·
+    <a href="#Quick Start">Quick Start</a>
+    ·
     <a href="#API Documentation">API Documentation</a>
+    ·
+    <a href="./DOCS/CONTRIBUTING.md">Contributing</a>
     ·
     <a href="#developing">Developing</a>
   </p>
@@ -37,14 +41,39 @@ See the complete API documentation: [DOCS/API.md](/DOCS/API.md)
 
 ## Developing
 
-TODO: setting up DB on macos
+See the complete Developing documentation: [DOCS/DEVELOPING.md](/DOCS/DEVELOPING.md)
+
+## Quick Start
 
 ### Prerequisites
 
+- Postgres v15 or later
 - Node.js 21+ and npm
 - Git
 
-### Quick Start
+> **Note:** Instructions tested only on macOS.
+
+**1. Create the database:**
+
+```bash
+psql postgres -c "CREATE DATABASE netrunnerapi;"
+```
+
+**2. Set up environment variables:**
+
+Create a copy of `example.env` and rename it to `.env`:
+
+```bash
+cp example.env .env
+```
+
+Edit `.env` and replace `<INSERT-USERNAME>` with your system username:
+
+```bash
+DB_URL="postgres://<INSERT-USERNAME>:@localhost:5432/netrunnerapi?sslmode=disable"
+```
+
+**3. Install dependencies and start:**
 
 ```bash
 # Install dependencies
@@ -52,28 +81,4 @@ npm install
 
 # Start development server
 npm run dev
-```
-
-### Database Development
-
-Database migrations run automatically when the server starts.
-
-When modifying the database schema:
-
-```bash
-# Generate new migration after schema changes
-npm run db:generate
-
-# Restart server to apply new migrations
-npm run dev
-```
-
-### Testing
-
-```bash
-# Run all tests
-npm run test
-
-# Run tests in watch mode
-npm run test:watch
 ```
