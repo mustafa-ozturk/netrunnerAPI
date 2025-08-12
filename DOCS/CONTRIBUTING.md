@@ -1,5 +1,7 @@
 # Contributing to Netrunner API
 
+> **Note:** This is a personal learning project.
+
 **Please open an issue first** before contributing to discuss your proposed changes and avoid wasted effort.
 
 Small improvements, bug fixes, and documentation enhancements are welcome! For larger features, let's chat first.
