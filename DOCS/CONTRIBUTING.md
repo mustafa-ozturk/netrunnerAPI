@@ -1,14 +1,10 @@
 # Contributing to Netrunner API
 
-> **Note:** This is a personal learning project.
-
-**Please open an issue first** before contributing to discuss your proposed changes and avoid wasted effort.
-
-Small improvements, bug fixes, and documentation enhancements are welcome! For larger features, let's chat first.
+> **Note:** This is a personal learning project and I'm not accepting code contributions at this time. However, feel free to report bugs or share ideas through issues.
 
 ## Commit Message Guidelines
 
-We follow a structured commit message format to maintain a clean project history:
+I (try to) follow a structured commit message format to maintain a clean project history:
 
 ### Format
 
