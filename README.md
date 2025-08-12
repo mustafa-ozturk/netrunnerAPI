@@ -9,9 +9,9 @@ A Cyberpunk-themed hacking game.<br>Build your own custom client to play.
     <br />
     <a href="#about">About</a>
     ·
-    <a href="#Quick Start">Quick Start</a>
+    <a href="#Quick-Start">Quick Start</a>
     ·
-    <a href="#API Documentation">API Documentation</a>
+    <a href="#API-Documentation">API Documentation</a>
     ·
     <a href="./DOCS/CONTRIBUTING.md">Contributing</a>
     ·
@@ -35,7 +35,7 @@ This is a cyberpunk-themed hacking game REST API. Build any type of client to in
 4. Extract valuable data, currency, and items from the compromised node.
 5. Sell items on the black market for profit.
 
-## API Documentation
+## API-Documentation
 
 See the complete API documentation: [DOCS/API.md](/DOCS/API.md)
 
@@ -43,7 +43,7 @@ See the complete API documentation: [DOCS/API.md](/DOCS/API.md)
 
 See the complete Developing documentation: [DOCS/DEVELOPING.md](/DOCS/DEVELOPING.md)
 
-## Quick Start
+## Quick-Start
 
 ### Prerequisites
 
