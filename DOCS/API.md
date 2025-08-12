@@ -132,6 +132,8 @@ _None_
 
 </details>
 
+## Hacking
+
 <details>
 <summary>Initiate Hack on Node</summary>
 
@@ -183,6 +185,62 @@ _None_
 ```json
 {
   "error": "Node must be scanned first."
+}
+```
+
+</details>
+
+<details>
+<summary>Check Hack Status</summary>
+
+Check the status of a hack operation by its ID.
+
+**Endpoint:** `GET /api/hack/:hackId`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Path Parameters:**
+
+- `hackId` (string, required) – The unique identifier of the hack operation.
+
+**Request Body:**  
+_None_
+
+**Success Response (200):**
+
+```json
+{
+  "id": "0e72e884-5896-4cd9-b0ec-d83fe7a14d9b",
+  "userId": "e5dfc6c7-e257-4563-bf1a-e069be274db4",
+  "createdAt": "2025-08-11T19:04:31.976Z",
+  "updatedAt": "2025-08-11T19:04:31.976Z",
+  "completesAt": "2025-08-11T23:04:41.975Z",
+  "status": "In Progress",
+  "target": "security_contractor"
+}
+```
+
+**Error Responses:**
+
+**401 Unauthorized** – Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+**404 Not Found** – Hack operation not found:
+
+```json
+{
+  "error": "Hack operation not found."
 }
 ```
 

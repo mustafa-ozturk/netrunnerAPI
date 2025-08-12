@@ -16,42 +16,42 @@ import { DIFFICULTY_TO_DURATION_MAP, TARGETS } from "../gamedata.js";
 import { BadRequestError, NotFoundError } from "../error.js";
 import { getScannedNodesByUserId } from "../db/queries/scannedNodes.js";
 
-export const handlerStartHack = async (req: Request, res: Response) => {
-  const { targetId } = req.params;
-  const token = getBearerToken(req);
-  const userID = validateJWT(token, config.jwt.secret);
+// export const handlerStartHack = async (req: Request, res: Response) => {
+//   const { targetId } = req.params;
+//   const token = getBearerToken(req);
+//   const userID = validateJWT(token, config.jwt.secret);
 
-  const target = TARGETS[targetId];
-  if (!target) {
-    throw new BadRequestError("Target doesn't exist");
-  }
+//   const target = TARGETS[targetId];
+//   if (!target) {
+//     throw new BadRequestError("Target doesn't exist");
+//   }
 
-  const hackDuration = DIFFICULTY_TO_DURATION_MAP[target.difficulty];
+//   const hackDuration = DIFFICULTY_TO_DURATION_MAP[target.difficulty];
 
-  const hackDetails = await createHack(userID, target.id, hackDuration);
-  if (!hackDetails) {
-    throw new Error("Couldn't start hack");
-  }
+//   const hackDetails = await createHack(userID, target.id, hackDuration);
+//   if (!hackDetails) {
+//     throw new Error("Couldn't start hack");
+//   }
 
-  respondWithJSON(res, 201, {
-    id: hackDetails.id,
-    userId: hackDetails.userId,
-    createdAt: hackDetails.createdAt,
-    updatedAt: hackDetails.updatedAt,
-    completesAt: hackDetails.completesAt,
-    status: hackDetails.status,
-    target: target.id,
-  } satisfies NewHack);
-};
+//   respondWithJSON(res, 201, {
+//     id: hackDetails.id,
+//     userId: hackDetails.userId,
+//     createdAt: hackDetails.createdAt,
+//     updatedAt: hackDetails.updatedAt,
+//     completesAt: hackDetails.completesAt,
+//     status: hackDetails.status,
+//     target: target.id,
+//   } satisfies NewHack);
+// };
 
 export const handlerGetHackById = async (req: Request, res: Response) => {
-  const { hackID } = req.params;
+  const { hackId } = req.params;
   const token = getBearerToken(req);
   validateJWT(token, config.jwt.secret);
 
-  const hackDetails = await getHackById(hackID);
+  const hackDetails = await getHackById(hackId);
   if (!hackDetails) {
-    throw new Error("Couldnt get hack");
+    throw new NotFoundError("Hack operation not found.");
   }
 
   respondWithJSON(res, 200, {
@@ -72,98 +72,98 @@ type extractResponseType = {
   eurodollars: number;
 };
 
-export const handlerExtractHackById = async (req: Request, res: Response) => {
-  const { hackId } = req.params;
-  // TODO: force should only work if user is admin
-  const force = req.query.force || false;
-  const token = getBearerToken(req);
-  const userId = validateJWT(token, config.jwt.secret);
+// export const handlerExtractHackById = async (req: Request, res: Response) => {
+//   const { hackId } = req.params;
+//   // TODO: force should only work if user is admin
+//   const force = req.query.force || false;
+//   const token = getBearerToken(req);
+//   const userId = validateJWT(token, config.jwt.secret);
 
-  const hackDetails = await getHackById(hackId);
-  if (!hackDetails) {
-    return respondWithError(res, 404, "Hack operation not found.");
-  }
+//   const hackDetails = await getHackById(hackId);
+//   if (!hackDetails) {
+//     return respondWithError(res, 404, "Hack operation not found.");
+//   }
 
-  if (hackDetails.userId !== userId) {
-    return respondWithError(res, 403, "Access denied.");
-  }
+//   if (hackDetails.userId !== userId) {
+//     return respondWithError(res, 403, "Access denied.");
+//   }
 
-  if (!force && hackDetails.status === "Extracted") {
-    return respondWithError(
-      res,
-      409,
-      "Payload already extracted from this hack."
-    );
-  }
+//   if (!force && hackDetails.status === "Extracted") {
+//     return respondWithError(
+//       res,
+//       409,
+//       "Payload already extracted from this hack."
+//     );
+//   }
 
-  if (!force && hackDetails.status === "In Progress") {
-    return respondWithError(
-      res,
-      409,
-      "Hack operation not ready for extraction."
-    );
-  }
+//   if (!force && hackDetails.status === "In Progress") {
+//     return respondWithError(
+//       res,
+//       409,
+//       "Hack operation not ready for extraction."
+//     );
+//   }
 
-  // set the hack to extracted
-  if (force) {
-    const extracted = await extractHackByIdForced(hackId);
-    if (!extracted) {
-      throw new Error("could not extract hack");
-    }
-  } else {
-    const extracted = await extractHackById(hackId);
-    if (!extracted) {
-      throw new Error("could not extract hack");
-    }
-  }
+//   // set the hack to extracted
+//   if (force) {
+//     const extracted = await extractHackByIdForced(hackId);
+//     if (!extracted) {
+//       throw new Error("could not extract hack");
+//     }
+//   } else {
+//     const extracted = await extractHackById(hackId);
+//     if (!extracted) {
+//       throw new Error("could not extract hack");
+//     }
+//   }
 
-  let extractResponse: extractResponseType = {
-    message: "Payload extraction failed.",
-    exp: 0,
-    items: [],
-    eurodollars: 0, // possible fines/bail ?
-  };
-  // TODO: chance of being traced
-  // check if they will get a reward
-  const target = TARGETS[hackDetails.target];
-  const successfulExtraction = force
-    ? true
-    : hackExtracted(target.difficulty as keyof typeof hackDifficulties);
-  if (successfulExtraction) {
-    extractResponse = getHackExtractionRewards(
-      target.difficulty as keyof typeof hackDifficulties,
-      target.possibleLoot
-    );
+//   let extractResponse: extractResponseType = {
+//     message: "Payload extraction failed.",
+//     exp: 0,
+//     items: [],
+//     eurodollars: 0, // possible fines/bail ?
+//   };
+//   // TODO: chance of being traced
+//   // check if they will get a reward
+//   const target = TARGETS[hackDetails.target];
+//   const successfulExtraction = force
+//     ? true
+//     : hackExtracted(target.difficulty as keyof typeof hackDifficulties);
+//   if (successfulExtraction) {
+//     extractResponse = getHackExtractionRewards(
+//       target.difficulty as keyof typeof hackDifficulties,
+//       target.possibleLoot
+//     );
 
-    if (extractResponse.items.length > 0) {
-      const item = ITEMS_MAP[extractResponse.items[0]];
+//     if (extractResponse.items.length > 0) {
+//       const item = ITEMS_MAP[extractResponse.items[0]];
 
-      await createItem({
-        itemName: item.name,
-        itemType: item.type,
-        description: item.description,
-        quantity: 1,
-        userId: userId,
-        value: item.baseValue,
-      });
+//       await createItem({
+//         itemName: item.name,
+//         itemType: item.type,
+//         description: item.description,
+//         quantity: 1,
+//         userId: userId,
+//         value: item.baseValue,
+//       });
 
-      const addedEurodollars = await addEurodollars(
-        userId,
-        extractResponse.eurodollars
-      );
-      if (!addedEurodollars) {
-        throw new Error("couldn't add eurodollars");
-      }
+//       const addedEurodollars = await addEurodollars(
+//         userId,
+//         extractResponse.eurodollars
+//       );
+//       if (!addedEurodollars) {
+//         throw new Error("couldn't add eurodollars");
+//       }
 
-      const addedExperience = await addExperience(userId, extractResponse.exp);
-      if (!addedExperience) {
-        throw new Error("couldnt add experience");
-      }
-    }
-  }
+//       const addedExperience = await addExperience(userId, extractResponse.exp);
+//       if (!addedExperience) {
+//         throw new Error("couldnt add experience");
+//       }
+//     }
+//   }
 
-  respondWithJSON(res, 200, extractResponse);
-};
+//   respondWithJSON(res, 200, extractResponse);
+// };
 
 export const hackDifficulties = {
   legendary: 1000, // 10%

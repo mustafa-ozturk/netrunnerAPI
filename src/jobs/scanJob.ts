@@ -22,11 +22,11 @@ const scanNetwork = async (userId: string) => {
   }
 
   console.log({ potentialNodes });
-  const randomIndex = Math.round(Math.random() * potentialNodes.length);
+  const randomIndex = Math.floor(Math.random() * potentialNodes.length);
   const randomNodeName = potentialNodes[randomIndex];
   if (!randomNodeName) {
     throw new Error(
-      `no randomNodeName found. potentialNodes: ${potentialNodes}`
+      `no randomNodeName found. potentialNodes: ${potentialNodes} | potentialNodes.length: ${potentialNodes.length} | randomIndex: ${randomIndex}`
     );
   }
 
