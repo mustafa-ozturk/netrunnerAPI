@@ -29,3 +29,12 @@ export const createItem = async (newItem: NewItem) => {
     console.log("[createItem][DB ERROR]", error?.cause);
   }
 };
+
+export const deleteItem = async (itemId: string) => {
+  try {
+    const rows = await db.delete(items).where(eq(items.id, itemId));
+    return rows.length > 0;
+  } catch (error: any) {
+    console.log("[deleteItem][DB ERROR]:", error?.cause);
+  }
+};
