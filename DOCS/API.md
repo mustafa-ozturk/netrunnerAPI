@@ -1,5 +1,222 @@
 # API Documentation
 
+<!-- ########################################### -->
+<!-- ########################################### -->
+<!-- ################## USER ################### -->
+<!-- ########################################### -->
+<!-- ########################################### -->
+
+## User
+
+<details>
+<summary>Create a User</summary>
+Creates a new user.
+
+**Endpoint:** `POST /api/users`
+
+**Request Body:**
+
+```json
+{
+  "username": "v",
+  "password": "samurai"
+}
+```
+
+**Parameters:**
+
+- `username` (string, required)
+- `password` (string, required)
+
+**Success Response (201):**
+
+```json
+{
+  "id": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "username": "v",
+  "createdAt": "2025-08-02T14:30:00.000Z",
+  "updatedAt": "2025-08-02T14:30:00.000Z"
+}
+```
+
+**Error Responses:**
+
+**400 Bad Request** - Missing parameters:
+
+```json
+{
+  "error": "Missing required params: username, password."
+}
+```
+
+**409 Conflict** - Username already exists:
+
+```json
+{
+  "error": "Username already exists"
+}
+```
+
+</details>
+
+<details>
+<summary>Login</summary>
+Authenticate a user and receive access tokens.
+
+**Endpoint:** `POST /api/login`
+
+**Request Body:**
+
+```json
+{
+  "username": "v",
+  "password": "samurai"
+}
+```
+
+**Parameters:**
+
+- `username` (string, required)
+- `password` (string, required)
+
+**Success Response (200):**
+
+```json
+{
+  "id": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "username": "v",
+  "createdAt": "2025-08-03T19:59:55.130Z",
+  "updatedAt": "2025-08-03T19:59:55.130Z",
+  "token": "eyJhbGciO.example.token",
+  "refreshToken": "a1b2c3d4e5f6.example.refresh.token"
+}
+```
+
+**Response Fields:**
+
+- `token` - JWT access token (expires in 1 hour)
+- `refreshToken` - Long-lived token for getting new access tokens (expires in 60 days)
+
+**Error Responses:**
+
+**400 Bad Request** - Missing parameters:
+
+```json
+{
+  "error": "Missing required params: username, password."
+}
+```
+
+**401 Unauthorized** - Invalid credentials:
+
+```json
+{
+  "error": "Incorrect username or password."
+}
+```
+
+</details>
+
+<details>
+<summary>Get User Stats</summary>
+
+Retrieve your current statistics and progression.
+
+**Endpoint:** `GET /api/stats`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (200):**
+
+```json
+{
+  "id": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "userId": "2803a17a-7ba1-45d8-afa6-5772a0b92af7",
+  "experience": 5000,
+  "eurodollars": 15000,
+  "reputation": 250,
+  "level": 5,
+  "createdAt": "2025-08-04T14:30:00.000Z",
+  "updatedAt": "2025-08-04T14:30:00.000Z"
+}
+```
+
+**Response Fields:**
+
+- `experience` (number) - Total experience points earned
+- `eurodollars` (number) - Current currency balance
+- `reputation` (number) - Character reputation in the netrunner community
+- `level` (number) - Character level based on experience (calculated)
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+</details>
+
+<details>
+<summary>Get Inventory</summary>
+
+Retrieve all items in your inventory.
+
+**Endpoint:** `GET /api/inventory`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Success Response (200):**
+
+```json
+{
+  "items": []
+}
+```
+
+**Item Type**
+
+```ts
+id: string;
+name: string;
+type: string;
+description: string;
+quantity: number;
+```
+
+**Error Responses:**
+
+**401 Unauthorized** - Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+</details>
+
+<!-- ########################################### -->
+<!-- ########################################### -->
+<!-- ################## SCANNING ############### -->
+<!-- ########################################### -->
+<!-- ########################################### -->
+
 ## Scanning
 
 <details>
@@ -131,6 +348,12 @@ _None_
 ```
 
 </details>
+
+<!-- ########################################### -->
+<!-- ########################################### -->
+<!-- ################## HACKING ################ -->
+<!-- ########################################### -->
+<!-- ########################################### -->
 
 ## Hacking
 
@@ -326,6 +549,12 @@ Authorization: Bearer <your-access-token>
 ```
 
 </details>
+
+<!-- ########################################### -->
+<!-- ########################################### -->
+<!-- ################## MARKET ################# -->
+<!-- ########################################### -->
+<!-- ########################################### -->
 
 ## Market
 
