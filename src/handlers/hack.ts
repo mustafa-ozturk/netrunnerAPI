@@ -72,98 +72,98 @@ type extractResponseType = {
   eurodollars: number;
 };
 
-// export const handlerExtractHackById = async (req: Request, res: Response) => {
-//   const { hackId } = req.params;
-//   // TODO: force should only work if user is admin
-//   const force = req.query.force || false;
-//   const token = getBearerToken(req);
-//   const userId = validateJWT(token, config.jwt.secret);
+export const handlerExtractHackById = async (req: Request, res: Response) => {
+  const { hackId } = req.params;
+  // TODO: force should only work if user is admin
+  const force = req.query.force === "true" ? true : false;
+  const token = getBearerToken(req);
+  const userId = validateJWT(token, config.jwt.secret);
 
-//   const hackDetails = await getHackById(hackId);
-//   if (!hackDetails) {
-//     return respondWithError(res, 404, "Hack operation not found.");
-//   }
+  const hackDetails = await getHackById(hackId);
+  if (!hackDetails) {
+    return respondWithError(res, 404, "Hack operation not found.");
+  }
 
-//   if (hackDetails.userId !== userId) {
-//     return respondWithError(res, 403, "Access denied.");
-//   }
+  if (hackDetails.userId !== userId) {
+    return respondWithError(res, 403, "Access denied.");
+  }
 
-//   if (!force && hackDetails.status === "Extracted") {
-//     return respondWithError(
-//       res,
-//       409,
-//       "Payload already extracted from this hack."
-//     );
-//   }
+  if (!force && hackDetails.status === "Extracted") {
+    return respondWithError(
+      res,
+      409,
+      "Payload already extracted from this hack."
+    );
+  }
 
-//   if (!force && hackDetails.status === "In Progress") {
-//     return respondWithError(
-//       res,
-//       409,
-//       "Hack operation not ready for extraction."
-//     );
-//   }
+  if (!force && hackDetails.status === "In Progress") {
+    return respondWithError(
+      res,
+      409,
+      "Hack operation not ready for extraction."
+    );
+  }
 
-//   // set the hack to extracted
-//   if (force) {
-//     const extracted = await extractHackByIdForced(hackId);
-//     if (!extracted) {
-//       throw new Error("could not extract hack");
-//     }
-//   } else {
-//     const extracted = await extractHackById(hackId);
-//     if (!extracted) {
-//       throw new Error("could not extract hack");
-//     }
-//   }
+  // set the hack to extracted
+  if (force) {
+    const extracted = await extractHackByIdForced(hackId);
+    if (!extracted) {
+      throw new Error("could not extract hack");
+    }
+  } else {
+    const extracted = await extractHackById(hackId);
+    if (!extracted) {
+      throw new Error("could not extract hack");
+    }
+  }
 
-//   let extractResponse: extractResponseType = {
-//     message: "Payload extraction failed.",
-//     exp: 0,
-//     items: [],
-//     eurodollars: 0, // possible fines/bail ?
-//   };
-//   // TODO: chance of being traced
-//   // check if they will get a reward
-//   const target = TARGETS[hackDetails.target];
-//   const successfulExtraction = force
-//     ? true
-//     : hackExtracted(target.difficulty as keyof typeof hackDifficulties);
-//   if (successfulExtraction) {
-//     extractResponse = getHackExtractionRewards(
-//       target.difficulty as keyof typeof hackDifficulties,
-//       target.possibleLoot
-//     );
+  let extractResponse: extractResponseType = {
+    message: "Payload extraction failed.",
+    exp: 0,
+    items: [],
+    eurodollars: 0, // possible fines/bail ?
+  };
+  // TODO: chance of being traced
+  // check if they will get a reward
+  const target = TARGETS[hackDetails.target];
+  const successfulExtraction = force
+    ? true
+    : hackExtracted(target.difficulty as keyof typeof hackDifficulties);
+  if (successfulExtraction) {
+    extractResponse = getHackExtractionRewards(
+      target.difficulty as keyof typeof hackDifficulties,
+      target.possibleLoot
+    );
 
-//     if (extractResponse.items.length > 0) {
-//       const item = ITEMS_MAP[extractResponse.items[0]];
+    if (extractResponse.items.length > 0) {
+      const item = ITEMS_MAP[extractResponse.items[0]];
 
-//       await createItem({
-//         itemName: item.name,
-//         itemType: item.type,
-//         description: item.description,
-//         quantity: 1,
-//         userId: userId,
-//         value: item.baseValue,
-//       });
+      await createItem({
+        itemName: item.name,
+        itemType: item.type,
+        description: item.description,
+        quantity: 1,
+        userId: userId,
+        value: item.baseValue,
+      });
 
-//       const addedEurodollars = await addEurodollars(
-//         userId,
-//         extractResponse.eurodollars
-//       );
-//       if (!addedEurodollars) {
-//         throw new Error("couldn't add eurodollars");
-//       }
+      const addedEurodollars = await addEurodollars(
+        userId,
+        extractResponse.eurodollars
+      );
+      if (!addedEurodollars) {
+        throw new Error("couldn't add eurodollars");
+      }
 
-//       const addedExperience = await addExperience(userId, extractResponse.exp);
-//       if (!addedExperience) {
-//         throw new Error("couldnt add experience");
-//       }
-//     }
-//   }
+      const addedExperience = await addExperience(userId, extractResponse.exp);
+      if (!addedExperience) {
+        throw new Error("couldnt add experience");
+      }
+    }
+  }
 
-//   respondWithJSON(res, 200, extractResponse);
-// };
+  respondWithJSON(res, 200, extractResponse);
+};
 
 export const hackDifficulties = {
   legendary: 1000, // 10%
@@ -210,7 +210,7 @@ export const getHackExtractionRewards = (
 ): extractResponseType => {
   // for now just earn one item max
   // TODO: should be able to earn more iterms on bigger difficulties
-  const randomIndex = Math.round(Math.random() * targetPossibleLoot.length);
+  const randomIndex = Math.floor(Math.random() * targetPossibleLoot.length);
   const item = targetPossibleLoot[randomIndex];
   return {
     message: "Payload extracted successfully.",
