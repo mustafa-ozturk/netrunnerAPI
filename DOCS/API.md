@@ -326,3 +326,73 @@ Authorization: Bearer <your-access-token>
 ```
 
 </details>
+
+## Market
+
+<details>
+<summary>List Items on the Black Market</summary>
+
+List Items on the Black Market.
+
+**Endpoint:** `POST /api/market/listings`
+
+**Authorization:** Bearer token required
+
+**Headers:**
+
+```
+Authorization: Bearer <your-access-token>
+```
+
+**Request Body:**
+
+```json
+{
+  "itemIds": ["02488de8-0c54-4f64-97f6-07ea729d4ab8"]
+}
+```
+
+**Parameters:**
+
+- `itemIds` (string[], required) – Array of item IDs from your inventory to list on the market
+
+**Success Response (201):**
+
+```json
+{
+  "marketItems": [
+    {
+      "id": "e1361621-acf5-41b9-b4c1-12a1eba97345",
+      "userId": "e5dfc6c7-e257-4563-bf1a-e069be274db4",
+      "createdAt": "2025-08-12T14:35:10.976Z",
+      "updatedAt": "2025-08-12T14:35:10.976Z",
+      "itemId": "02488de8-0c54-4f64-97f6-07ea729d4ab8",
+      "status": "Auctioned"
+    }
+  ]
+}
+```
+
+**Response Fields:**
+
+- `marketItems` (array) – List of items now available on the market
+
+**Error Responses:**
+
+**400 Bad Request** – Missing parameters:
+
+```json
+{
+  "error": "itemIds required"
+}
+```
+
+**401 Unauthorized** – Missing or invalid token:
+
+```json
+{
+  "error": "Invalid Token."
+}
+```
+
+</details>

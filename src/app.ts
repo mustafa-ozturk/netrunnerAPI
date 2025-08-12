@@ -163,4 +163,13 @@ app.post("/api/hack/:hackId/extract", async (req, res, next) => {
   }
 });
 
+// MARKET
+app.post("/api/market/listings", async (req, res, next) => {
+  try {
+    await handlerAddItemToMarket(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use(middlewareErrorHandler);
