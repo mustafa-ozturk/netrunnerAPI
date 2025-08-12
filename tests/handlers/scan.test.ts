@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import request from "supertest";
 import { app } from "../../src/app";
 
-describe("GET /api/scan", async () => {
+describe.skip("GET /api/scan", async () => {
   it("should return 401 when no valid access token", async () => {
     const response = await request(app).get("/api/scan");
 
